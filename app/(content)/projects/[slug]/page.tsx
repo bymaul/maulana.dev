@@ -63,7 +63,7 @@ const ProjectPage = async ({ params }: { params: Params }) => {
       jsonLd={jsonLd}
       header={
         <>
-          <p className="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-neutral-600 dark:text-neutral-300">
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-neutral-600 dark:text-neutral-300">
             {project.metadata.description}
           </p>
 

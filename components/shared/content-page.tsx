@@ -35,7 +35,7 @@ export default function ContentPage({
         <article className="py-0 pt-12">
           <Card className="h-auto p-8 md:p-12">
             <header className="border-b border-neutral-200/50 pb-10 text-center dark:border-white/10">
-              <h1 className="font-pixelify-sans text-4xl leading-relaxed text-neutral-900 md:text-5xl dark:text-white">
+              <h1 className="font-pixelify-sans text-3xl leading-relaxed text-neutral-900 md:text-4xl dark:text-white">
                 {title}
               </h1>
               {header}

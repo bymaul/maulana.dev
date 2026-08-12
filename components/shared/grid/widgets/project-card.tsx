@@ -29,6 +29,7 @@ export default function ProjectCard() {
             height={200}
             sizes="(max-width: 374px) 50px, (max-width: 798px) 60px, (max-width: 1198px) 70px, 400px"
             quality={70}
+            loading="eager"
             className="h-auto w-12.5 object-cover rotate-15 sm:w-15 md:w-17.5 lg:w-100"
           />
         </div>
