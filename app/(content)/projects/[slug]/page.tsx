@@ -93,7 +93,7 @@ const ProjectPage = async ({ params }: { params: Params }) => {
       }
       footer={
         images.length > 0 && (
-          <section aria-label="Project gallery" className="pb-20">
+          <section aria-label="Project gallery">
             <GridLayout layouts={projectLayouts}>
               {images.map((image) => (
                 <div key={image.i} role="group" aria-label={`Project screenshot ${image.i}`}>
