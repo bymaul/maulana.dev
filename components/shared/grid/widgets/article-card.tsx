@@ -2,6 +2,7 @@ import Card from '@/components/ui/card';
 import { getFeaturedPost } from '@/lib/mdx';
 import { formatDate } from '@/lib/utils';
 import Link from 'next/link';
+import { FaArrowRight } from 'react-icons/fa6';
 
 export default function ArticleCard() {
   const post = getFeaturedPost();
@@ -18,12 +19,6 @@ export default function ArticleCard() {
     <Card className="group relative overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:bg-white/40 hover:shadow-2xl dark:hover:bg-white/5">
       <div className="relative z-10 flex h-full flex-col justify-between p-8 focus:outline-none">
         <div className="flex flex-col gap-3">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xs font-bold tracking-widest text-blue-600 uppercase dark:text-blue-400">
-              Featured Post
-            </h3>
-          </div>
-
           <h2 className="font-pixelify-sans text-2xl leading-tight font-bold text-neutral-900 drop-shadow-sm dark:text-white">
             <Link
               href={`/posts/${post.slug}`}

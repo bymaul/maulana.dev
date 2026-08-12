@@ -5,30 +5,26 @@ import { gridItems as homeGridItems } from '@/config/grid';
 import { cn, formatDate } from '@/lib/utils';
 import Link from 'next/link';
 import type { LayoutItem } from 'react-grid-layout';
-import { FaArrowRight } from 'react-icons/fa6';
+import { useMemo } from 'react';
 
-type Accent = { badge: string; blob: string; arrow: string };
+type Accent = { text: string; blob: string };
 
 const accents: Accent[] = [
   {
-    badge: 'text-blue-600 dark:text-blue-400',
+    text: 'hover:text-blue-600 hover:dark:text-blue-400',
     blob: 'bg-blue-500/20 group-hover:bg-blue-500/30',
-    arrow: 'group-hover/btn:text-blue-600 dark:group-hover/btn:text-blue-400',
   },
   {
-    badge: 'text-emerald-600 dark:text-emerald-400',
+    text: 'hover:text-emerald-600 hover:dark:text-emerald-400',
     blob: 'bg-emerald-500/20 group-hover:bg-emerald-500/30',
-    arrow: 'group-hover/btn:text-emerald-600 dark:group-hover/btn:text-emerald-400',
   },
   {
-    badge: 'text-purple-600 dark:text-purple-400',
+    text: 'hover:text-purple-600 hover:dark:text-purple-400',
     blob: 'bg-purple-500/20 group-hover:bg-purple-500/30',
-    arrow: 'group-hover/btn:text-purple-600 dark:group-hover/btn:text-purple-400',
   },
   {
-    badge: 'text-amber-600 dark:text-amber-400',
+    text: 'hover:text-amber-600 hover:dark:text-amber-400',
     blob: 'bg-amber-500/20 group-hover:bg-amber-500/30',
-    arrow: 'group-hover/btn:text-amber-600 dark:group-hover/btn:text-amber-400',
   },
 ];
 
@@ -91,6 +87,8 @@ const baseLayouts = {
 
 const baseItemIds = ['description', 'location', 'theme', 'contact'];
 
+const getBadgeText = (date?: string) => (date ? formatDate(date) : 'Article');
+
 function EntryCard({
   href,
   badge,
@@ -110,31 +108,19 @@ function EntryCard({
     <Card className="group relative h-full overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:bg-white/40 hover:shadow-2xl dark:hover:bg-white/5">
       <div className="relative z-10 flex h-full flex-col justify-between p-5 focus:outline-none md:p-8">
         <div className="flex flex-col gap-3">
-          <div className="flex items-center justify-between">
-            <span className={cn('text-xs font-bold tracking-widest uppercase', accent.badge)}>
-              {badge}
-            </span>
-          </div>
-          <h2 className="font-pixelify-sans text-xl leading-tight font-bold text-neutral-900 drop-shadow-sm md:text-3xl dark:text-white">
-            {title}
+          <h2 className="font-pixelify-sans text-2xl leading-tight font-bold text-neutral-900 drop-shadow-sm dark:text-white">
+            <Link href={href} className={cn('cancel-drag transition-colors', accent.text)}>
+              {title}
+            </Link>
           </h2>
           <p className="pointer-events-none text-neutral-600 max-lg:line-clamp-2 dark:text-neutral-400">
             {description}
           </p>
         </div>
         <div className="mt-6 flex items-center">
-          <Link
-            className="cancel-drag group/btn inline-flex items-center justify-center gap-3 rounded-full bg-neutral-900/5 px-6 py-3 text-sm font-medium text-neutral-900 backdrop-blur-md transition-all hover:bg-neutral-900/10 hover:shadow-md dark:bg-white/5 dark:text-white dark:hover:bg-white/10"
-            href={href}
-          >
-            <FaArrowRight
-              className={cn(
-                '-rotate-45 transition-transform duration-300 group-hover/btn:rotate-0',
-                accent.arrow,
-              )}
-            />
-            {cta}
-          </Link>
+          <span className="rounded-full border border-neutral-900/10 bg-neutral-900/5 px-4 py-1.5 text-xs font-medium text-neutral-600 backdrop-blur-md dark:border-white/10 dark:bg-white/10 dark:text-neutral-300">
+            {badge}
+          </span>
         </div>
       </div>
       <div
@@ -147,43 +133,51 @@ function EntryCard({
   );
 }
 
-const getBadgeText = (date?: string) => (date ? formatDate(date) : 'Article');
-
 export default function EntriesGrid({ view, posts, projects }: EntriesGridProps) {
-  const baseItems = homeGridItems
-    .filter((item) => baseItemIds.includes(item.i))
-    .map((item) => <GridItem key={item.i} id={item.i} component={item.component} />);
-
-  const entries: ContentData[] = view === 'articles' ? posts : projects;
   const isArticles = view === 'articles';
-  const prefix = isArticles ? 'post' : 'project';
+  const entries = isArticles ? posts : projects;
   const hrefBase = isArticles ? '/posts' : '/projects';
 
-  const ids = [...entries.map((_, i) => `${prefix}-${i}`), 'contact'];
-  const newLayouts = {
-    lg: generateLayout(ids, 'lg'),
-    md: generateLayout(ids, 'md'),
-    sm: generateLayout(ids, 'sm'),
-  };
+  const baseItems = useMemo(
+    () =>
+      homeGridItems
+        .filter((item) => baseItemIds.includes(item.i))
+        .map((item) => <GridItem key={item.i} id={item.i} component={item.component} />),
+    [],
+  );
 
-  const newItems = entries.map((entry, i) => (
-    <div key={`${prefix}-${i}`} className="h-full">
-      <EntryCard
-        accent={accents[i % accents.length]}
-        href={`${hrefBase}/${entry.slug}`}
-        badge={isArticles ? getBadgeText(entry.metadata.date) : 'Project'}
-        title={entry.metadata.title}
-        description={entry.metadata.description}
-        cta={isArticles ? 'Read Article' : 'View Project'}
-      />
-    </div>
-  ));
+  const mergedLayouts = useMemo(() => {
+    const ids = [...entries.map((e) => e.slug), 'contact'];
 
-  const mergedLayouts = {
-    lg: [...baseLayouts.lg, ...newLayouts.lg],
-    md: [...baseLayouts.md, ...newLayouts.md],
-    sm: [...baseLayouts.sm, ...newLayouts.sm],
-  };
+    const newLayouts = {
+      lg: generateLayout(ids, 'lg'),
+      md: generateLayout(ids, 'md'),
+      sm: generateLayout(ids, 'sm'),
+    };
+
+    return {
+      lg: [...baseLayouts.lg, ...newLayouts.lg],
+      md: [...baseLayouts.md, ...newLayouts.md],
+      sm: [...baseLayouts.sm, ...newLayouts.sm],
+    };
+  }, [entries]);
+
+  const newItems = useMemo(
+    () =>
+      entries.map((entry, i) => (
+        <div key={entry.slug} className="h-full">
+          <EntryCard
+            accent={accents[i % accents.length]}
+            href={`${hrefBase}/${entry.slug}`}
+            badge={isArticles ? getBadgeText(entry.metadata.date) : 'Project'}
+            title={entry.metadata.title}
+            description={entry.metadata.description}
+            cta={isArticles ? 'Read Article' : 'View Project'}
+          />
+        </div>
+      )),
+    [entries, isArticles, hrefBase],
+  );
 
   return <GridLayout layouts={mergedLayouts}>{[...baseItems, ...newItems]}</GridLayout>;
 }

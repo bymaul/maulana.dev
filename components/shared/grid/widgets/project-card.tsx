@@ -21,7 +21,7 @@ export default function ProjectCard() {
       </div>
 
       <div className="absolute inset-0 z-10 overflow-hidden">
-        <div className="absolute bottom-0 -left-1 z-0 w-[50px] transition-all duration-500 translate-y-[20%] group-hover:translate-y-[10%] sm:-left-2 sm:w-[60px] md:-left-3 md:w-[70px] lg:-left-5 lg:w-30">
+        <div className="absolute bottom-0 -left-1 z-0 w-12.5 transition-all duration-500 translate-y-[20%] group-hover:translate-y-[10%] sm:-left-2 sm:w-15 md:-left-3 md:w-17.5 lg:-left-5 lg:w-30">
           <Image
             src="/projects/curricula-preview.webp"
             alt="Curricula"
@@ -29,10 +29,10 @@ export default function ProjectCard() {
             height={200}
             sizes="(max-width: 374px) 50px, (max-width: 798px) 60px, (max-width: 1198px) 70px, 400px"
             quality={70}
-            className="h-auto w-[50px] object-cover rotate-15 sm:w-[60px] md:w-[70px] lg:w-[400px]"
+            className="h-auto w-12.5 object-cover rotate-15 sm:w-15 md:w-17.5 lg:w-100"
           />
         </div>
-        <div className="absolute top-0 right-0 z-0 w-[50px] transition-all duration-800 -translate-y-[40%] group-hover:-translate-y-[30%] sm:w-[60px] md:w-[70px] lg:w-30">
+        <div className="absolute top-0 right-0 z-0 w-12.5 transition-all duration-800 translate-y-[-40%] group-hover:translate-y-[-30%] sm:w-15 md:w-17.5 lg:w-30">
           <Image
             src="/projects/curricula-edit.webp"
             alt="Curricula"
@@ -41,18 +41,19 @@ export default function ProjectCard() {
             sizes="(max-width: 374px) 50px, (max-width: 798px) 60px, (max-width: 1198px) 70px, 400px"
             quality={70}
             loading="eager"
-            className="h-auto w-[50px] object-cover -rotate-150 sm:w-[60px] md:w-[70px] lg:w-[400px]"
+            className="h-auto w-12.5 object-cover -rotate-150 sm:w-15 md:w-17.5 lg:w-100"
           />
         </div>
-        <div className="absolute -right-2 bottom-0 z-0 w-[70px] transition-all duration-800 translate-y-[10%] group-hover:translate-y-[5%] sm:-right-4 sm:w-[80px] md:-right-8 md:w-[90px] lg:-right-15 lg:w-60">
+        <div className="absolute -right-2 bottom-0 z-0 w-17.5 transition-all duration-800 translate-y-[10%] group-hover:translate-y-[5%] sm:-right-4 sm:w-20 md:-right-8 md:w-22.5 lg:-right-15 lg:w-60">
           <Image
             src="/projects/curricula-desktop.webp"
             alt="Curricula"
             width={400}
             height={400}
+            loading="eager"
             sizes="(max-width: 374px) 70px, (max-width: 798px) 80px, (max-width: 1198px) 90px, 400px"
             quality={70}
-            className="h-auto w-[70px] object-cover -rotate-10 sm:w-[80px] md:w-[90px] lg:w-[400px]"
+            className="h-auto w-17.5 object-cover -rotate-10 sm:w-20 md:w-22.5 lg:w-100"
           />
         </div>
       </div>
