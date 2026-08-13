@@ -4,8 +4,8 @@ import Card from '@/components/ui/card';
 import { gridItems as homeGridItems } from '@/config/grid';
 import { cn, formatDate } from '@/lib/utils';
 import Link from 'next/link';
-import type { LayoutItem } from 'react-grid-layout';
 import { useMemo } from 'react';
+import type { LayoutItem } from 'react-grid-layout';
 
 type Accent = { text: string; blob: string };
 
@@ -94,14 +94,12 @@ function EntryCard({
   badge,
   title,
   description,
-  cta,
   accent,
 }: {
   href: string;
   badge: string;
   title: string;
   description: string;
-  cta: string;
   accent: Accent;
 }) {
   return (
@@ -125,7 +123,7 @@ function EntryCard({
       </div>
       <div
         className={cn(
-          'pointer-events-none absolute -top-10 -left-10 z-0 size-40 rounded-full blur-3xl transition-all duration-500 group-hover:scale-150',
+          'pointer-events-none absolute -right-10 -bottom-10 z-0 size-40 rounded-full blur-3xl transition-all duration-500 group-hover:scale-150',
           accent.blob,
         )}
       />
@@ -172,7 +170,6 @@ export default function EntriesGrid({ view, posts, projects }: EntriesGridProps)
             badge={isArticles ? getBadgeText(entry.metadata.date) : 'Project'}
             title={entry.metadata.title}
             description={entry.metadata.description}
-            cta={isArticles ? 'Read Article' : 'View Project'}
           />
         </div>
       )),

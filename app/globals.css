@@ -10,18 +10,6 @@
   --breakpoint-lg: 1199px;
 
   --font-pixelify-sans: var(--font-pixelify-sans);
-
-  --color-dark-50: #dbdbdb;
-  --color-dark-100: #cfcfcf;
-  --color-dark-200: #b8b8b8;
-  --color-dark-300: #969696;
-  --color-dark-400: #6e6e6e;
-  --color-dark-500: #545454;
-  --color-dark-600: #424242;
-  --color-dark-700: #363636;
-  --color-dark-800: #2b2b2b;
-  --color-dark-900: #1a1a1a;
-  --color-dark-950: #0d0d0d;
 }
 
 /*
