@@ -40,10 +40,10 @@ function NavContent() {
   return (
     <nav
       ref={navRef}
-      className="relative flex items-center rounded-full border border-black/10 bg-white/50 p-1.5 shadow-lg backdrop-blur-lg dark:border-white/10 dark:bg-[#0a0a0a]/50"
+      className="relative flex items-center rounded-full border border-black/10 bg-white/50 p-1.5 shadow-lg backdrop-blur-lg dark:border-white/10 dark:bg-dark-950/50"
     >
       <div
-        className="absolute inset-y-1.5 z-0 rounded-full bg-white shadow-sm transition-all duration-300 ease-out dark:bg-neutral-800"
+        className="absolute inset-y-1.5 z-0 rounded-full bg-white shadow-sm transition-all duration-300 ease-out dark:bg-dark-800"
         style={{ left: activeStyle.left, width: activeStyle.width, opacity: activeStyle.opacity }}
       />
 
@@ -59,10 +59,10 @@ function NavContent() {
             data-active={isActive}
             scroll={false}
             className={cn(
-              'relative z-10 rounded-full px-5 py-2 text-sm font-medium transition-colors duration-300',
+              'relative z-10 rounded-full px-5 py-2 text-sm font-medium outline-hidden transition-all duration-300 focus-visible:ring-2 focus-visible:ring-black/15 dark:focus-visible:ring-white/20',
               isActive
-                ? 'text-emerald-600 dark:text-emerald-400'
-                : 'text-neutral-600 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-neutral-200',
+                ? 'text-gray-900 dark:text-white'
+                : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200',
             )}
           >
             {item.name}
@@ -84,7 +84,7 @@ export default function Navbar() {
     <header className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2">
       <Suspense
         fallback={
-          <div className="h-10 w-64 animate-pulse rounded-full bg-white/50 dark:bg-black/50" />
+          <div className="h-10 w-64 animate-pulse rounded-full bg-white/50 dark:bg-dark-950/50" />
         }
       >
         <NavContent />

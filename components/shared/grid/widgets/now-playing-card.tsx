@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Card from '@/components/ui/card';
-import { SiSpotify } from 'react-icons/si';
+import { FaSpotify } from 'react-icons/fa6';
 
 interface SpotifyData {
   isPlaying: boolean;
@@ -33,17 +33,17 @@ export default function NowPlayingCard() {
   }, []);
 
   return (
-    <Card className="group relative overflow-hidden transition-all duration-500">
+    <Card className="group relative">
       <div
-        className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+        className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-700"
         style={{ backgroundImage: data?.albumImageUrl ? `url(${data.albumImageUrl})` : '' }}
       />
 
       <div className="absolute inset-0 z-0 bg-linear-to-t from-black/90 via-black/40 to-black/10" />
 
       <div className="absolute top-4 right-4 z-10 drop-shadow-md">
-        <SiSpotify
-          className={`h-6 w-6 transition-all duration-500 ${data?.isPlaying ? 'animate-pulse text-[#1DB954] drop-shadow-[0_0_8px_rgba(29,185,84,0.6)]' : 'text-white/50'}`}
+        <FaSpotify
+          className={`h-6 w-6 transition-all duration-500 ${data?.isPlaying ? 'animate-pulse text-[#1DB954]' : 'text-white/50'}`}
         />
       </div>
 
@@ -51,8 +51,8 @@ export default function NowPlayingCard() {
         <div className="flex flex-col gap-1 text-white">
           {!data ? (
             <>
-              <div className="h-6 w-3/4 animate-pulse rounded bg-white/20 backdrop-blur-sm" />
-              <div className="mt-1 h-4 w-1/2 animate-pulse rounded bg-white/20 backdrop-blur-sm" />
+              <div className="h-6 w-3/4 animate-pulse rounded bg-gray-200 dark:bg-dark-700" />
+              <div className="mt-1 h-4 w-1/2 animate-pulse rounded bg-gray-200 dark:bg-dark-700" />
             </>
           ) : (
             <>
@@ -64,7 +64,7 @@ export default function NowPlayingCard() {
                   href={data.songUrl ?? '#'}
                   target="_blank"
                   rel="nofollow noopener noreferrer"
-                  className="cancel-drag transition-colors hover:text-[#1DB954]"
+                  className="cancel-drag rounded-sm outline-hidden ring-2 ring-transparent transition-all focus-visible:ring-2 focus-visible:ring-white/30"
                 >
                   {data.title ?? 'Failed to load'}
                 </a>
@@ -76,7 +76,7 @@ export default function NowPlayingCard() {
           )}
         </div>
 
-        <div className="mt-4 flex w-max items-center gap-3 rounded-full border border-white/10 bg-white/10 px-4 py-2 backdrop-blur-md">
+        <div className="mt-4 flex w-max items-center gap-3 rounded-full border border-white/15 bg-white/15 backdrop-blur-lg px-4 py-2">
           {data?.isPlaying ? (
             <div className="flex h-3 items-end gap-0.5">
               {[0.85, 0.62, 1.26, 0.85, 0.49, 1.26].map((dur, i) => (

@@ -10,6 +10,18 @@
   --breakpoint-lg: 1199px;
 
   --font-pixelify-sans: var(--font-pixelify-sans);
+
+  --color-dark-50: #dbdbdb;
+  --color-dark-100: #cfcfcf;
+  --color-dark-200: #b8b8b8;
+  --color-dark-300: #969696;
+  --color-dark-400: #6e6e6e;
+  --color-dark-500: #545454;
+  --color-dark-600: #424242;
+  --color-dark-700: #363636;
+  --color-dark-800: #2b2b2b;
+  --color-dark-900: #1a1a1a;
+  --color-dark-950: #0d0d0d;
 }
 
 /*
@@ -80,13 +92,17 @@
   @apply hidden;
 }
 
+.mapboxgl-canvas {
+  @apply outline-hidden;
+}
+
 div[mapboxgl-children] {
   @apply absolute inset-0;
 }
 
 /* MDX */
 .prose .anchor {
-  @apply invisible absolute -ml-8 pr-2 no-underline;
+  @apply invisible absolute -ml-6 pr-2 no-underline;
 
   &:after {
     @apply text-neutral-300 content-['#'] dark:text-neutral-700;
@@ -99,31 +115,4 @@ div[mapboxgl-children] {
 
 .prose *:hover > .anchor {
   @apply visible;
-}
-
-@layer utilities {
-  .animate-blob {
-    animation: blob 7s infinite;
-  }
-  .animation-delay-2000 {
-    animation-delay: 2s;
-  }
-  .animation-delay-4000 {
-    animation-delay: 4s;
-  }
-}
-
-@keyframes blob {
-  0% {
-    transform: translate(0px, 0px) scale(1);
-  }
-  33% {
-    transform: translate(30px, -50px) scale(1.1);
-  }
-  66% {
-    transform: translate(-20px, 20px) scale(0.9);
-  }
-  100% {
-    transform: translate(0px, 0px) scale(1);
-  }
 }

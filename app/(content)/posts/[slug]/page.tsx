@@ -61,7 +61,7 @@ const PostPage = async ({ params }: { params: Params }) => {
       contentLabel="Article content"
       jsonLd={jsonLd}
       header={
-        <p className="mt-6 text-sm font-semibold tracking-widest text-neutral-500 uppercase dark:text-neutral-400">
+        <p className="mt-6 text-sm font-semibold tracking-widest text-gray-500 uppercase dark:text-gray-400">
           <time dateTime={post.metadata.date}>{formatDate(post.metadata.date)}</time>
         </p>
       }

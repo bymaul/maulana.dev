@@ -3,25 +3,41 @@
 import Card from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FaMinus, FaPlus } from 'react-icons/fa6';
 import { Map, MapRef } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-const MAX_ZOOM = 8;
-const MIN_ZOOM = 3;
+const MAX_ZOOM = 9;
+const MIN_ZOOM = 1;
+
 const INITIAL_VIEW_STATE = {
   latitude: -7.7962967,
   longitude: 110.3667211,
   zoom: MAX_ZOOM,
 };
+
 const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
 export default function LocationCard() {
   const [currentZoom, setCurrentZoom] = useState(MAX_ZOOM);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
+
   const mapRef = useRef<MapRef>(null);
   const { resolvedTheme } = useTheme();
+
+  const isDark = resolvedTheme === 'dark';
+
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+
+    if (!map || !isMapLoaded || !resolvedTheme) {
+      return;
+    }
+
+    map.setConfigProperty('basemap', 'lightPreset', isDark ? 'night' : 'day');
+    map.setConfigProperty('basemap', 'theme', isDark ? 'monochrome' : 'default');
+  }, [isDark, isMapLoaded, resolvedTheme]);
 
   const handleZoom = (zoomIn: boolean) => {
     setCurrentZoom((prev) => {
@@ -41,14 +57,29 @@ export default function LocationCard() {
     });
   };
 
-  const mapStyle = `mapbox://styles/mapbox/${resolvedTheme === 'dark' ? 'dark-v11' : 'streets-v12'}`;
-
   return (
-    <Card className="relative size-full overflow-hidden">
+    <Card className="relative size-full">
       <Map
         mapboxAccessToken={mapboxToken}
-        mapStyle={mapStyle}
+        mapStyle="mapbox://styles/mapbox/standard"
         ref={mapRef}
+        config={{
+          basemap: {
+            lightPreset: isDark ? 'night' : 'day',
+            theme: isDark ? 'monochrome' : 'default',
+            showPedestrianRoads: false,
+            showPointOfInterestLabels: false,
+            showRoadLabels: false,
+            showTransitLabels: false,
+            showAdminBoundaries: false,
+            show3dObjects: false,
+            show3dBuildings: false,
+            show3dTrees: false,
+            show3dLandmarks: false,
+            showLandmarkIconLabels: false,
+            showIndoorLabels: false,
+          },
+        }}
         scrollZoom={false}
         dragPan={false}
         doubleClickZoom={false}
@@ -68,6 +99,7 @@ export default function LocationCard() {
             >
               <FaMinus />
             </Button>
+
             <Button
               aria-label="Zoom in"
               isVisible={currentZoom < MAX_ZOOM}
@@ -77,7 +109,7 @@ export default function LocationCard() {
             </Button>
           </div>
         ) : (
-          <div className="absolute inset-0 size-full animate-pulse bg-white/20 backdrop-blur-md dark:bg-black/20" />
+          <div className="absolute inset-0 size-full animate-pulse bg-gray-100 dark:bg-dark-800" />
         )}
       </Map>
     </Card>
@@ -87,12 +119,17 @@ export default function LocationCard() {
 function Button({
   isVisible,
   ...props
-}: Readonly<React.ButtonHTMLAttributes<HTMLButtonElement> & { isVisible: boolean }>) {
+}: Readonly<
+  React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    isVisible: boolean;
+  }
+>) {
   return (
     <button
       className={cn(
-        'cancel-drag flex size-10 items-center justify-center rounded-full shadow-lg transition-all duration-300',
-        'bg-white/60 text-neutral-800 backdrop-blur-md hover:bg-white/90 dark:bg-neutral-900/60 dark:text-white dark:hover:bg-neutral-900/90',
+        'cancel-drag flex size-10 items-center justify-center rounded-full shadow-md outline-hidden transition-all duration-300',
+        'bg-white text-gray-800 hover:bg-gray-50 hover:ring-4 hover:ring-gray-200/45 focus-visible:ring-4 focus-visible:ring-gray-200/45',
+        'dark:bg-dark-800 dark:text-white ring-2 ring-gray-200 dark:ring-gray-200/30 dark:hover:bg-dark-700',
         isVisible ? 'opacity-100' : 'pointer-events-none opacity-0',
       )}
       type="button"

@@ -8,11 +8,8 @@ export default function CustomLink({
     <Link
       {...props}
       className={cn(
-        'group inline-flex items-center justify-center gap-3 overflow-hidden rounded-full whitespace-nowrap transition-all duration-300',
-        'border border-white/60 bg-white/40 text-neutral-900 shadow-md backdrop-blur-md',
-        'hover:-translate-y-0.5 hover:bg-white/60 hover:shadow-lg',
-        'dark:border-white/10 dark:bg-neutral-900/40 dark:text-white',
-        'dark:hover:bg-neutral-900/60',
+        'group inline-flex items-center justify-center gap-3 overflow-hidden whitespace-nowrap rounded-full bg-white p-3 transition-all duration-300',
+        'outline-hidden ring-2 ring-gray-200/45 focus-visible:ring-4 hover:ring-4 dark:text-black dark:ring-gray-200/30',
         props.className,
       )}
     />

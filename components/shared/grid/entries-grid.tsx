@@ -2,31 +2,10 @@ import GridItem from '@/components/shared/grid/item';
 import GridLayout from '@/components/shared/grid/layout';
 import Card from '@/components/ui/card';
 import { gridItems as homeGridItems } from '@/config/grid';
-import { cn, formatDate } from '@/lib/utils';
+import { formatDate } from '@/lib/utils';
 import Link from 'next/link';
 import { useMemo } from 'react';
 import type { LayoutItem } from 'react-grid-layout';
-
-type Accent = { text: string; blob: string };
-
-const accents: Accent[] = [
-  {
-    text: 'hover:text-blue-600 hover:dark:text-blue-400',
-    blob: 'bg-blue-500/20 group-hover:bg-blue-500/30',
-  },
-  {
-    text: 'hover:text-emerald-600 hover:dark:text-emerald-400',
-    blob: 'bg-emerald-500/20 group-hover:bg-emerald-500/30',
-  },
-  {
-    text: 'hover:text-purple-600 hover:dark:text-purple-400',
-    blob: 'bg-purple-500/20 group-hover:bg-purple-500/30',
-  },
-  {
-    text: 'hover:text-amber-600 hover:dark:text-amber-400',
-    blob: 'bg-amber-500/20 group-hover:bg-amber-500/30',
-  },
-];
 
 export type ContentData = {
   slug: string;
@@ -94,39 +73,31 @@ function EntryCard({
   badge,
   title,
   description,
-  accent,
 }: {
   href: string;
   badge: string;
   title: string;
   description: string;
-  accent: Accent;
 }) {
   return (
-    <Card className="group relative h-full overflow-hidden transition-all duration-500 hover:-translate-y-1 hover:bg-white/40 hover:shadow-2xl dark:hover:bg-white/5">
-      <div className="relative z-10 flex h-full flex-col justify-between p-5 focus:outline-none md:p-8">
+    <Card className="group relative h-full">
+      <div className="relative z-10 flex h-full flex-col justify-between p-5 md:p-8">
         <div className="flex flex-col gap-3">
-          <h2 className="font-pixelify-sans text-2xl leading-tight font-bold text-neutral-900 drop-shadow-sm dark:text-white">
-            <Link href={href} className={cn('cancel-drag transition-colors', accent.text)}>
+          <h2 className="font-pixelify-sans text-2xl leading-tight font-bold text-gray-900 drop-shadow-sm dark:text-white">
+            <Link href={href} className="cancel-drag transition-colors">
               {title}
             </Link>
           </h2>
-          <p className="pointer-events-none text-neutral-600 max-lg:line-clamp-2 dark:text-neutral-400">
+          <p className="pointer-events-none text-gray-600 max-lg:line-clamp-2 dark:text-dark-300">
             {description}
           </p>
         </div>
         <div className="mt-6 flex items-center">
-          <span className="rounded-full border border-neutral-900/10 bg-neutral-900/5 px-4 py-1.5 text-xs font-medium text-neutral-600 backdrop-blur-md dark:border-white/10 dark:bg-white/10 dark:text-neutral-300">
+          <span className="rounded-full border border-gray-200 bg-gray-100 px-4 py-1.5 text-xs font-medium text-gray-600 dark:border-dark-800 dark:bg-dark-800 dark:text-dark-300">
             {badge}
           </span>
         </div>
       </div>
-      <div
-        className={cn(
-          'pointer-events-none absolute -right-10 -bottom-10 z-0 size-40 rounded-full blur-3xl transition-all duration-500 group-hover:scale-150',
-          accent.blob,
-        )}
-      />
     </Card>
   );
 }
@@ -162,10 +133,9 @@ export default function EntriesGrid({ view, posts, projects }: EntriesGridProps)
 
   const newItems = useMemo(
     () =>
-      entries.map((entry, i) => (
+      entries.map((entry) => (
         <div key={entry.slug} className="h-full">
           <EntryCard
-            accent={accents[i % accents.length]}
             href={`${hrefBase}/${entry.slug}`}
             badge={isArticles ? getBadgeText(entry.metadata.date) : 'Project'}
             title={entry.metadata.title}

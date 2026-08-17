@@ -7,10 +7,9 @@ export default function BackButton() {
     <Link
       href="/"
       className={cn(
-        'group inline-flex size-12 items-center justify-center gap-3 overflow-hidden rounded-full border p-0 whitespace-nowrap',
-        'border-white/60 bg-white/40 text-neutral-900 shadow-md backdrop-blur-md',
-        'transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/60 hover:shadow-lg',
-        'dark:border-white/10 dark:bg-neutral-900/40 dark:text-white dark:hover:bg-neutral-900/60',
+        'group inline-flex size-12 items-center justify-center gap-3 overflow-hidden rounded-full p-0 whitespace-nowrap',
+        'bg-white transition-all duration-300',
+        'outline-hidden ring-2 ring-gray-200/45 focus-visible:ring-4 hover:ring-4 dark:text-black dark:ring-gray-200/30',
       )}
     >
       <FaX />

@@ -5,8 +5,8 @@ import Card from '@/components/ui/card';
 
 export default function DescriptionCard() {
   return (
-    <Card className="group flex flex-col justify-center gap-4 p-8 hover:bg-white/50 dark:hover:bg-white/5">
-      <div className="relative size-14 overflow-hidden rounded-full shadow-lg ring-2 ring-white/50 transition-transform group-hover:scale-105 sm:size-16 dark:ring-white/10">
+    <Card className="group flex flex-col justify-center gap-4 p-8">
+      <div className="relative size-14 overflow-hidden rounded-full shadow-md ring-2 ring-gray-200 transition-transform group-hover:scale-105 sm:size-16 dark:ring-dark-800">
         <Image
           src={profile}
           alt={siteConfig.title}
@@ -16,9 +16,9 @@ export default function DescriptionCard() {
           priority
         />
       </div>
-      <p className="leading-relaxed text-neutral-700 dark:text-neutral-300">
+      <p className="leading-relaxed text-gray-700 dark:text-dark-300">
         Hi, I&apos;m{' '}
-        <span className="font-pixelify-sans text-2xl font-bold text-neutral-900 dark:text-white">
+        <span className="font-pixelify-sans text-2xl font-bold text-gray-900 dark:text-white">
           Maulana
         </span>
         , a software developer from Yogyakarta, Indonesia.{' '}

@@ -34,8 +34,8 @@ export default function ContentPage({
 
         <article className="py-0 pt-12">
           <Card className="h-auto p-8 md:p-12">
-            <header className="border-b border-neutral-200/50 pb-10 text-center dark:border-white/10">
-              <h1 className="font-pixelify-sans text-3xl leading-relaxed text-neutral-900 md:text-4xl dark:text-white">
+            <header className="border-b border-gray-200/50 pb-10 text-center dark:border-white/10">
+              <h1 className="font-pixelify-sans text-3xl leading-relaxed text-gray-900 md:text-4xl dark:text-white">
                 {title}
               </h1>
               {header}
@@ -43,7 +43,7 @@ export default function ContentPage({
 
             <section
               aria-label={contentLabel}
-              className="prose prose-neutral prose-lg dark:prose-invert mx-auto max-w-none pt-10"
+              className="prose prose-gray prose-lg dark:prose-invert mx-auto max-w-none pt-10"
             >
               {children}
             </section>
