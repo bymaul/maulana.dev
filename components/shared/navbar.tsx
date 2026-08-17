@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, useRef, useState, Suspense } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, Suspense } from 'react';
 import { cn } from '@/lib/utils';
 
 const navItems = [
@@ -11,41 +11,44 @@ const navItems = [
   { name: 'Projects', path: '/?view=projects', viewId: 'projects', match: '/projects' },
 ];
 
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
 function NavContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const view = searchParams.get('view') || 'home';
   const navRef = useRef<HTMLDivElement>(null);
-  const [activeStyle, setActiveStyle] = useState({ left: 0, width: 0, opacity: 0 });
+  const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
 
-  useEffect(() => {
-    const updateActiveBlock = () => {
-      if (navRef.current) {
-        const activeItem = navRef.current.querySelector('[data-active="true"]') as HTMLElement;
-        if (activeItem) {
-          setActiveStyle({
-            left: activeItem.offsetLeft,
-            width: activeItem.offsetWidth,
-            opacity: 1,
-          });
-        }
+  useIsomorphicLayoutEffect(() => {
+    const update = () => {
+      if (!navRef.current) return;
+      const el = navRef.current.querySelector<HTMLElement>('[data-active="true"]');
+      if (el) {
+        setIndicator({ left: el.offsetLeft, width: el.offsetWidth });
       }
     };
 
-    requestAnimationFrame(updateActiveBlock);
-    window.addEventListener('resize', updateActiveBlock);
-    return () => window.removeEventListener('resize', updateActiveBlock);
+    update();
+
+    const observer = new ResizeObserver(update);
+    observer.observe(navRef.current!);
+    return () => observer.disconnect();
   }, [pathname, view]);
 
   return (
     <nav
       ref={navRef}
-      className="relative flex items-center rounded-full border border-black/10 bg-white/50 p-1.5 shadow-lg backdrop-blur-lg dark:border-white/10 dark:bg-dark-950/50"
+      className="relative flex items-center touch-manipulation select-none rounded-full border border-black/10 bg-white/50 p-1.5 shadow-lg backdrop-blur-lg dark:border-white/10 dark:bg-dark-950/50"
+      role="navigation"
+      aria-label="Main navigation"
     >
-      <div
-        className="absolute inset-y-1.5 z-0 rounded-full bg-white shadow-sm transition-all duration-300 ease-out dark:bg-dark-800"
-        style={{ left: activeStyle.left, width: activeStyle.width, opacity: activeStyle.opacity }}
-      />
+      {indicator && (
+        <div
+          className="absolute inset-y-1.5 z-0 rounded-full bg-white shadow-sm transition-[left,width] duration-300 ease-out dark:bg-dark-800"
+          style={{ left: indicator.left, width: indicator.width }}
+        />
+      )}
 
       {navItems.map((item) => {
         const isActive =
@@ -56,13 +59,14 @@ function NavContent() {
           <Link
             key={item.path}
             href={item.path}
-            data-active={isActive}
             scroll={false}
+            data-active={isActive}
+            aria-current={isActive ? 'page' : undefined}
             className={cn(
-              'relative z-10 rounded-full px-5 py-2 text-sm font-medium outline-hidden transition-all duration-300 focus-visible:ring-2 focus-visible:ring-black/15 dark:focus-visible:ring-white/20',
+              'relative z-10 rounded-full px-5 py-2 text-sm font-medium outline-hidden transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-black/15 dark:focus-visible:ring-white/20',
               isActive
                 ? 'text-gray-900 dark:text-white'
-                : 'text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200',
+                : 'text-gray-800 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200',
             )}
           >
             {item.name}

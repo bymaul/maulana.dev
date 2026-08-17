@@ -5,14 +5,19 @@ const {
   SPOTIFY_CLIENT_SECRET: secret,
   SPOTIFY_REFRESH_TOKEN: refresh,
 } = process.env;
+
 const basic = Buffer.from(`${id}:${secret}`).toString('base64');
-const headers = { 'Cache-Control': 'public, s-maxage=10, stale-while-revalidate=5' };
 
 const fetchSpotify = (url: string, token: string) =>
-  fetch(url, { headers: { Authorization: `Bearer ${token}` }, next: { revalidate: 0 } });
+  fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: 'no-store',
+  });
 
 export async function GET() {
-  if (!id || !secret || !refresh) return NextResponse.json({ isPlaying: false });
+  if (!id || !secret || !refresh) {
+    return NextResponse.json({ isPlaying: false });
+  }
 
   try {
     const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
@@ -21,14 +26,22 @@ export async function GET() {
         Authorization: `Basic ${basic}`,
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refresh }),
-      next: { revalidate: 0 },
+      body: new URLSearchParams({
+        grant_type: 'refresh_token',
+        refresh_token: refresh,
+      }),
+      cache: 'no-store',
     });
 
-    if (!tokenRes.ok) return NextResponse.json({ isPlaying: false });
+    if (!tokenRes.ok) {
+      return NextResponse.json({ isPlaying: false });
+    }
 
     const { access_token } = await tokenRes.json();
-    if (!access_token) return NextResponse.json({ isPlaying: false });
+
+    if (!access_token) {
+      return NextResponse.json({ isPlaying: false });
+    }
 
     const currentlyPlaying = await fetchSpotify(
       'https://api.spotify.com/v1/me/player/currently-playing',
@@ -46,7 +59,7 @@ export async function GET() {
             albumImageUrl: data.item.album.images[0]?.url || '',
             songUrl: data.item.external_urls.spotify,
           },
-          { headers },
+          { headers: { 'Cache-Control': 'no-store' } },
         );
       }
     }
@@ -68,7 +81,7 @@ export async function GET() {
             albumImageUrl: track.album.images[0]?.url || '',
             songUrl: track.external_urls.spotify,
           },
-          { headers },
+          { headers: { 'Cache-Control': 'no-store' } },
         );
       }
     }

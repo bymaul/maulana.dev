@@ -18,15 +18,12 @@ export default function ArticleCard() {
     <Card className="group relative">
       <div className="relative z-10 flex h-full flex-col justify-between p-8">
         <div className="flex flex-col gap-3">
-          <h2 className="font-pixelify-sans text-2xl leading-tight font-bold text-gray-900 drop-shadow-sm dark:text-white">
-            <Link
-              href={`/posts/${post.slug}`}
-              className="cancel-drag transition-colors"
-            >
+          <h2 className="font-fraunces text-2xl leading-tight font-semibold text-gray-900 dark:text-white">
+            <Link href={`/posts/${post.slug}`} className="cancel-drag transition-colors">
               {post.metadata.title}
             </Link>
           </h2>
-          <p className="pointer-events-none line-clamp-3 text-gray-600 dark:text-dark-300">
+          <p className="pointer-events-none line-clamp-4 text-gray-600 dark:text-dark-300">
             {post.metadata.description}
           </p>
         </div>

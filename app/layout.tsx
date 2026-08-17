@@ -1,6 +1,6 @@
 import Navbar from '@/components/shared/navbar';
 import { siteConfig } from '@/config/site';
-import { pixelifySans, poppins } from '@/lib/fonts';
+import { fraunces, inter } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
@@ -55,8 +55,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          poppins.className,
-          pixelifySans.variable,
+          inter.className,
+          fraunces.variable,
           'dark:bg-dark-950 bg-gray-100 antialiased',
         )}
       >

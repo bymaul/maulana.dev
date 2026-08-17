@@ -17,7 +17,7 @@ export default function NowPlayingCard() {
 
   useEffect(() => {
     const fetchNowPlaying = () =>
-      fetch('/api/now-playing')
+      fetch('/api/now-playing', { cache: 'no-store' })
         .then((r) => r.json())
         .then(setData)
         .catch(() => {});
@@ -57,7 +57,7 @@ export default function NowPlayingCard() {
           ) : (
             <>
               <h2
-                className="font-pixelify-sans line-clamp-2 text-2xl font-bold drop-shadow-md md:line-clamp-1 lg:line-clamp-2"
+                className="font-fraunces line-clamp-2 text-2xl font-semibold drop-shadow-md md:line-clamp-1 lg:line-clamp-2"
                 title={data.title}
               >
                 <a
@@ -90,7 +90,7 @@ export default function NowPlayingCard() {
           ) : (
             <div className="h-2 w-2 rounded-full bg-gray-400" />
           )}
-          <p className="text-xs font-bold tracking-wider text-gray-200 uppercase">
+          <p className="text-xs font-semibold tracking-wider text-gray-200 uppercase">
             {data?.isPlaying ? 'Now Playing' : 'Last Played'}
           </p>
         </div>

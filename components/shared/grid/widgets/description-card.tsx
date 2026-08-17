@@ -18,7 +18,7 @@ export default function DescriptionCard() {
       </div>
       <p className="leading-relaxed text-gray-700 dark:text-dark-300">
         Hi, I&apos;m{' '}
-        <span className="font-pixelify-sans text-2xl font-bold text-gray-900 dark:text-white">
+        <span className="font-fraunces text-2xl font-semibold text-gray-900 dark:text-white">
           Maulana
         </span>
         , a software developer from Yogyakarta, Indonesia.{' '}

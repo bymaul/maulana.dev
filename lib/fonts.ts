@@ -1,13 +1,12 @@
-import { Pixelify_Sans, Poppins } from 'next/font/google';
+import { Fraunces, Inter } from 'next/font/google';
 
-export const poppins = Poppins({
-  weight: ['300', '400', '500', '600', '700'],
+export const inter = Inter({
   subsets: ['latin'],
-  variable: '--font-poppins',
+  variable: '--font-inter',
 });
 
-export const pixelifySans = Pixelify_Sans({
-  weight: ['600'],
+export const fraunces = Fraunces({
+  weight: ['600', '700', '800'],
   subsets: ['latin'],
-  variable: '--font-pixelify-sans',
+  variable: '--font-fraunces',
 });

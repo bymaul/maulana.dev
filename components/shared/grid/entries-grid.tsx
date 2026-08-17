@@ -83,12 +83,12 @@ function EntryCard({
     <Card className="group relative h-full">
       <div className="relative z-10 flex h-full flex-col justify-between p-5 md:p-8">
         <div className="flex flex-col gap-3">
-          <h2 className="font-pixelify-sans text-2xl leading-tight font-bold text-gray-900 drop-shadow-sm dark:text-white">
+          <h2 className="font-fraunces text-2xl leading-tight font-semibold text-gray-900 dark:text-white">
             <Link href={href} className="cancel-drag transition-colors">
               {title}
             </Link>
           </h2>
-          <p className="pointer-events-none text-gray-600 max-lg:line-clamp-2 dark:text-dark-300">
+          <p className="pointer-events-none text-gray-600 max-lg:line-clamp-4 dark:text-dark-300">
             {description}
           </p>
         </div>

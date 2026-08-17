@@ -1,9 +1,11 @@
+import CustomLink from '@/components/ui/custom-link';
 import { CustomMDX } from '@/components/mdx/mdx';
-import ContentPage from '@/components/shared/content-page';
 import { siteConfig } from '@/config/site';
 import { getAllPosts, getPostBySlug } from '@/lib/mdx';
 import { formatDate } from '@/lib/utils';
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
+import { FaX } from 'react-icons/fa6';
 
 type Params = Promise<{ slug: string }>;
 
@@ -54,20 +56,32 @@ const PostPage = async ({ params }: { params: Params }) => {
   };
 
   return (
-    <ContentPage
-      className="max-w-4xl"
-      title={post.metadata.title}
-      navLabel="Article navigation"
-      contentLabel="Article content"
-      jsonLd={jsonLd}
-      header={
-        <p className="mt-6 text-sm font-semibold tracking-widest text-gray-500 uppercase dark:text-gray-400">
-          <time dateTime={post.metadata.date}>{formatDate(post.metadata.date)}</time>
-        </p>
-      }
-    >
-      <CustomMDX source={post.content} />
-    </ContentPage>
+    <>
+      <Script
+        id="json-ld"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <nav className="flex items-center justify-center pt-10">
+        <CustomLink className="inline-flex hover:mb-6 hover:scale-125" href="/">
+          <FaX />
+          <div className="sr-only">Close</div>
+        </CustomLink>
+      </nav>
+      <main className="mx-auto max-w-prose px-4 py-8">
+        <article className="prose prose-gray dark:prose-invert px-4 py-8">
+          <header className="text-center not-prose">
+            <h1 className="font-fraunces text-3xl dark:text-white text-gray-900 leading-relaxed">
+              {post.metadata.title}
+            </h1>
+            <p className="text-sm font-semibold tracking-widest text-gray-600 dark:text-gray-300">
+              <time dateTime={post.metadata.date}>{formatDate(post.metadata.date)}</time>
+            </p>
+          </header>
+          <CustomMDX source={post.content} />
+        </article>
+      </main>
+    </>
   );
 };
 
