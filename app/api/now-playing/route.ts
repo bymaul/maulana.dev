@@ -15,7 +15,7 @@ export async function GET() {
   if (!id || !secret || !refresh) return NextResponse.json({ isPlaying: false });
 
   try {
-    const { access_token } = await fetch('https://accounts.spotify.com/api/token', {
+    const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: {
         Authorization: `Basic ${basic}`,
@@ -23,39 +23,57 @@ export async function GET() {
       },
       body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: refresh }),
       next: { revalidate: 0 },
-    }).then((res) => res.json());
+    });
 
-    let res = await fetchSpotify(
+    if (!tokenRes.ok) return NextResponse.json({ isPlaying: false });
+
+    const { access_token } = await tokenRes.json();
+    if (!access_token) return NextResponse.json({ isPlaying: false });
+
+    const currentlyPlaying = await fetchSpotify(
       'https://api.spotify.com/v1/me/player/currently-playing',
       access_token,
     );
-    let isPlaying = true;
 
-    if (res.status === 204 || res.status > 400) {
-      res = await fetchSpotify(
-        'https://api.spotify.com/v1/me/player/recently-played?limit=1',
-        access_token,
-      );
-      isPlaying = false;
-
-      if (res.status === 204 || res.status > 400) return NextResponse.json({ isPlaying: false });
+    if (currentlyPlaying.ok && currentlyPlaying.status !== 204) {
+      const data = await currentlyPlaying.json();
+      if (data?.item) {
+        return NextResponse.json(
+          {
+            isPlaying: data.is_playing,
+            title: data.item.name,
+            artist: data.item.artists.map((a: { name: string }) => a.name).join(', '),
+            albumImageUrl: data.item.album.images[0]?.url || '',
+            songUrl: data.item.external_urls.spotify,
+          },
+          { headers },
+        );
+      }
     }
 
-    const data = await res.json();
-
-    const track = isPlaying ? data.item : data.items?.[0]?.track;
-    if (!track) return NextResponse.json({ isPlaying: false });
-
-    return NextResponse.json(
-      {
-        isPlaying: isPlaying && data.is_playing,
-        title: track.name,
-        artist: track.artists.map((a: { name: string }) => a.name).join(', '),
-        albumImageUrl: track.album.images[0]?.url || '',
-        songUrl: track.external_urls.spotify,
-      },
-      { headers },
+    const recentlyPlayed = await fetchSpotify(
+      'https://api.spotify.com/v1/me/player/recently-played?limit=1',
+      access_token,
     );
+
+    if (recentlyPlayed.ok && recentlyPlayed.status !== 204) {
+      const data = await recentlyPlayed.json();
+      const track = data.items?.[0]?.track;
+      if (track) {
+        return NextResponse.json(
+          {
+            isPlaying: false,
+            title: track.name,
+            artist: track.artists.map((a: { name: string }) => a.name).join(', '),
+            albumImageUrl: track.album.images[0]?.url || '',
+            songUrl: track.external_urls.spotify,
+          },
+          { headers },
+        );
+      }
+    }
+
+    return NextResponse.json({ isPlaying: false });
   } catch {
     return NextResponse.json({ isPlaying: false }, { status: 500 });
   }
