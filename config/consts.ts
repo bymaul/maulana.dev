@@ -1,4 +1,6 @@
-export const breakpoints: { [key: string]: number } = {
+export type Breakpoint = 'lg' | 'md' | 'sm' | 'xs' | 'xxs';
+
+export const breakpoints: Record<Breakpoint, number> = {
   lg: 1199,
   md: 799,
   sm: 374,

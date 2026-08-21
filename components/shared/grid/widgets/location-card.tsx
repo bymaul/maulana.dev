@@ -9,75 +9,96 @@ import { Map, MapRef } from 'react-map-gl/mapbox';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 const MAX_ZOOM = 9;
-const MIN_ZOOM = 1;
+const MIN_ZOOM = 3;
 
 const INITIAL_VIEW_STATE = {
-  latitude: -7.7962967,
-  longitude: 110.3667211,
+  latitude: -7.79558,
+  longitude: 110.36949,
   zoom: MAX_ZOOM,
 };
 
 const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
+const BASEMAP_CONFIG = {
+  showPedestrianRoads: false,
+  showPointOfInterestLabels: false,
+  showRoadLabels: false,
+  showTransitLabels: false,
+  showAdminBoundaries: false,
+  show3dObjects: false,
+  show3dBuildings: false,
+  show3dTrees: false,
+  show3dLandmarks: false,
+  showLandmarkIconLabels: false,
+  showIndoorLabels: false,
+};
+
 export default function LocationCard() {
-  const [currentZoom, setCurrentZoom] = useState(MAX_ZOOM);
-  const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const [zoom, setZoom] = useState(MAX_ZOOM);
+  const [loaded, setLoaded] = useState(false);
 
   const mapRef = useRef<MapRef>(null);
-  const { resolvedTheme } = useTheme();
+  const containerRef = useRef<HTMLDivElement>(null);
 
+  const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
+
+  const mapTheme = {
+    lightPreset: isDark ? 'night' : 'day',
+    theme: isDark ? 'monochrome' : 'default',
+  };
 
   useEffect(() => {
     const map = mapRef.current?.getMap();
 
-    if (!map || !isMapLoaded || !resolvedTheme) {
-      return;
-    }
+    if (!map || !loaded) return;
 
-    map.setConfigProperty('basemap', 'lightPreset', isDark ? 'night' : 'day');
-    map.setConfigProperty('basemap', 'theme', isDark ? 'monochrome' : 'default');
-  }, [isDark, isMapLoaded, resolvedTheme]);
+    map.setConfigProperty('basemap', 'lightPreset', mapTheme.lightPreset);
+    map.setConfigProperty('basemap', 'theme', mapTheme.theme);
+  }, [isDark, loaded]);
+
+  useEffect(() => {
+    const map = mapRef.current?.getMap();
+    const gridItem = containerRef.current?.closest('.react-grid-item');
+
+    if (!map || !gridItem || !loaded) return;
+
+    const handleTransitionEnd = (event: Event) => {
+      if ((event as TransitionEvent).propertyName === 'width') {
+        map.resize();
+      }
+    };
+
+    gridItem.addEventListener('transitionend', handleTransitionEnd);
+
+    return () => {
+      gridItem.removeEventListener('transitionend', handleTransitionEnd);
+    };
+  }, [loaded]);
 
   const handleZoom = (zoomIn: boolean) => {
-    setCurrentZoom((prev) => {
-      const newZoom = prev + (zoomIn ? 1 : -1);
+    zoomIn ? mapRef.current?.zoomIn() : mapRef.current?.zoomOut();
+  };
 
-      if (newZoom < MIN_ZOOM || newZoom > MAX_ZOOM) {
-        return prev;
-      }
+  const handleZoomEnd = () => {
+    const zoom = mapRef.current?.getZoom();
 
-      if (zoomIn) {
-        mapRef.current?.zoomIn();
-      } else {
-        mapRef.current?.zoomOut();
-      }
-
-      return newZoom;
-    });
+    if (zoom != null) setZoom(zoom);
   };
 
   return (
-    <Card className="relative size-full">
+    <Card ref={containerRef} className="relative size-full">
       <Map
+        ref={mapRef}
         mapboxAccessToken={mapboxToken}
         mapStyle="mapbox://styles/mapbox/standard"
-        ref={mapRef}
+        initialViewState={INITIAL_VIEW_STATE}
+        minZoom={MIN_ZOOM}
+        maxZoom={MAX_ZOOM}
         config={{
           basemap: {
-            lightPreset: isDark ? 'night' : 'day',
-            theme: isDark ? 'monochrome' : 'default',
-            showPedestrianRoads: false,
-            showPointOfInterestLabels: false,
-            showRoadLabels: false,
-            showTransitLabels: false,
-            showAdminBoundaries: false,
-            show3dObjects: false,
-            show3dBuildings: false,
-            show3dTrees: false,
-            show3dLandmarks: false,
-            showLandmarkIconLabels: false,
-            showIndoorLabels: false,
+            ...mapTheme,
+            ...BASEMAP_CONFIG,
           },
         }}
         scrollZoom={false}
@@ -85,25 +106,23 @@ export default function LocationCard() {
         doubleClickZoom={false}
         attributionControl={false}
         dragRotate={false}
-        onLoad={() => setIsMapLoaded(true)}
-        initialViewState={INITIAL_VIEW_STATE}
-        maxZoom={MAX_ZOOM}
-        minZoom={MIN_ZOOM}
+        onLoad={() => setLoaded(true)}
+        onZoomEnd={handleZoomEnd}
       >
-        {isMapLoaded ? (
+        {loaded ? (
           <div className="absolute inset-x-4 bottom-4 flex items-center justify-between">
             <Button
               aria-label="Zoom out"
-              isVisible={currentZoom > MIN_ZOOM}
-              onClick={() => handleZoom(false)}
+              isVisible={zoom > MIN_ZOOM}
+              onClick={() => handleZoom(true)}
             >
               <FaMinus />
             </Button>
 
             <Button
               aria-label="Zoom in"
-              isVisible={currentZoom < MAX_ZOOM}
-              onClick={() => handleZoom(true)}
+              isVisible={zoom < MAX_ZOOM}
+              onClick={() => handleZoom(false)}
             >
               <FaPlus />
             </Button>
@@ -126,14 +145,16 @@ function Button({
 >) {
   return (
     <button
+      {...props}
+      type="button"
       className={cn(
         'cancel-drag flex size-10 items-center justify-center rounded-full shadow-md outline-hidden transition-all duration-300',
-        'bg-white text-gray-800 hover:bg-gray-50 hover:ring-4 hover:ring-gray-200/45 focus-visible:ring-4 focus-visible:ring-gray-200/45',
-        'ring-2 ring-gray-200 dark:bg-dark-800 dark:text-white dark:ring-gray-200/30 dark:hover:bg-dark-700',
+        'bg-white text-gray-800 hover:bg-gray-50 hover:ring-4 hover:ring-gray-200/45',
+        'focus-visible:ring-4 focus-visible:ring-gray-200/45',
+        'ring-2 ring-gray-200 dark:bg-dark-800 dark:text-white dark:ring-dark-800',
+        'dark:hover:bg-dark-700',
         isVisible ? 'opacity-100' : 'pointer-events-none opacity-0',
       )}
-      type="button"
-      {...props}
     />
   );
 }

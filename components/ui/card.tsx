@@ -1,15 +1,15 @@
 import { cn } from '@/lib/utils';
 import React from 'react';
 
-interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  className?: string;
+type CardProps = React.ComponentPropsWithRef<'div'> & {
   children: React.ReactNode;
-}
+};
 
-export default function Card({ className, children, ...props }: Readonly<CardProps>) {
+export default function Card({ className, children, ref, ...props }: Readonly<CardProps>) {
   return (
     <div className="size-full rounded-3xl shadow-xs transition-shadow duration-300 hover:shadow-lg">
       <div
+        ref={ref}
         {...props}
         className={cn(
           'size-full overflow-hidden rounded-3xl',
