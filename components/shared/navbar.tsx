@@ -39,7 +39,7 @@ function NavContent() {
   return (
     <nav
       ref={navRef}
-      className="relative flex items-center touch-manipulation select-none rounded-full border border-black/10 bg-white/50 p-1.5 shadow-lg backdrop-blur-lg dark:border-white/10 dark:bg-dark-950/50"
+      className="relative flex touch-manipulation items-center rounded-full border border-black/10 bg-white/50 p-1.5 shadow-lg backdrop-blur-lg select-none dark:border-white/10 dark:bg-dark-950/50"
       role="navigation"
       aria-label="Main navigation"
     >

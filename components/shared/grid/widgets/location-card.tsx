@@ -129,7 +129,7 @@ function Button({
       className={cn(
         'cancel-drag flex size-10 items-center justify-center rounded-full shadow-md outline-hidden transition-all duration-300',
         'bg-white text-gray-800 hover:bg-gray-50 hover:ring-4 hover:ring-gray-200/45 focus-visible:ring-4 focus-visible:ring-gray-200/45',
-        'dark:bg-dark-800 dark:text-white ring-2 ring-gray-200 dark:ring-gray-200/30 dark:hover:bg-dark-700',
+        'ring-2 ring-gray-200 dark:bg-dark-800 dark:text-white dark:ring-gray-200/30 dark:hover:bg-dark-700',
         isVisible ? 'opacity-100' : 'pointer-events-none opacity-0',
       )}
       type="button"

@@ -9,7 +9,7 @@ export default function ContactCard() {
       <h2 className="font-fraunces text-2xl font-semibold max-md:text-center">
         Have a project in mind? 👋
       </h2>
-      <p className="leading-relaxed max-md:hidden text-gray-700 dark:text-dark-300">
+      <p className="leading-relaxed text-gray-700 max-md:hidden dark:text-dark-300">
         If you have a project that you want to get started, think you need my help with something or
         just fancy saying hey, then get in touch.
       </p>
@@ -23,7 +23,7 @@ export default function ContactCard() {
             <a
               key={social.name}
               href={social.url}
-              className="cancel-drag inline-flex size-8 items-center justify-center rounded-full outline-hidden ring ring-gray-200/45 transition-all duration-300 focus-visible:ring-2 focus-visible:ring-gray-200/45 focus-visible:outline-hidden hover:ring-2 dark:ring-gray-200/30"
+              className="cancel-drag inline-flex size-8 items-center justify-center rounded-full ring ring-gray-200/45 outline-hidden transition-all duration-300 hover:ring-2 focus-visible:ring-2 focus-visible:ring-gray-200/45 focus-visible:outline-hidden dark:ring-gray-200/30"
               aria-label={`My ${social.name}`}
               target="_blank"
               rel="noreferrer"

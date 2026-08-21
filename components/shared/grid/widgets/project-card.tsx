@@ -16,10 +16,10 @@ export default function ProjectCard() {
             sizes="(max-width: 374px) 70px, (max-width: 798px) 80px, (max-width: 1198px) 100px, 140px"
             quality={70}
             loading="eager"
-            className="h-auto w-17.5 object-cover rotate-15 sm:w-20 md:w-25 lg:w-110"
+            className="h-auto w-17.5 rotate-15 object-cover sm:w-20 md:w-25 lg:w-110"
           />
         </div>
-        <div className="absolute top-0 right-0 z-0 w-17.5 transition-all duration-800 translate-y-[-40%] group-hover:translate-y-[-30%] sm:w-20 md:w-25 lg:w-35">
+        <div className="absolute top-0 right-0 z-0 w-17.5 translate-y-[-40%] transition-all duration-800 group-hover:translate-y-[-30%] sm:w-20 md:w-25 lg:w-35">
           <Image
             src="/projects/curricula-edit.webp"
             alt="Curricula"
@@ -28,10 +28,10 @@ export default function ProjectCard() {
             sizes="(max-width: 374px) 70px, (max-width: 798px) 80px, (max-width: 1198px) 100px, 140px"
             quality={70}
             loading="eager"
-            className="h-auto w-17.5 object-cover -rotate-150 sm:w-20 md:w-25 lg:w-110"
+            className="h-auto w-17.5 -rotate-150 object-cover sm:w-20 md:w-25 lg:w-110"
           />
         </div>
-        <div className="absolute -right-2 bottom-0 z-0 w-22.5 transition-all duration-800 translate-y-[10%] group-hover:translate-y-[5%] sm:-right-4 sm:w-27.5 md:-right-8 md:w-35 lg:-right-15 lg:w-70">
+        <div className="absolute -right-2 bottom-0 z-0 w-22.5 translate-y-[10%] transition-all duration-800 group-hover:translate-y-[5%] sm:-right-4 sm:w-27.5 md:-right-8 md:w-35 lg:-right-15 lg:w-70">
           <Image
             src="/projects/curricula-desktop.webp"
             alt="Curricula"
@@ -40,7 +40,7 @@ export default function ProjectCard() {
             loading="eager"
             sizes="(max-width: 374px) 90px, (max-width: 798px) 110px, (max-width: 1198px) 140px, 280px"
             quality={70}
-            className="h-auto w-22.5 object-cover -rotate-10 sm:w-27.5 md:w-35 lg:w-140"
+            className="h-auto w-22.5 -rotate-10 object-cover sm:w-27.5 md:w-35 lg:w-140"
           />
         </div>
       </div>

@@ -3,5 +3,7 @@
   "useTabs": false,
   "tabWidth": 2,
   "printWidth": 100,
-  "semi": true
+  "semi": true,
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindStylesheet": "./app/globals.css"
 }

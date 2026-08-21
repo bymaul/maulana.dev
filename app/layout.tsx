@@ -1,6 +1,6 @@
 import Navbar from '@/components/shared/navbar';
 import { siteConfig } from '@/config/site';
-import { fraunces, inter } from '@/lib/fonts';
+import { dmSans, fraunces } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
@@ -55,9 +55,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          inter.className,
+          dmSans.className,
           fraunces.variable,
-          'dark:bg-dark-950 bg-gray-100 antialiased',
+          'bg-gray-100 antialiased dark:bg-dark-950',
         )}
       >
         <ThemeProvider attribute="class" enableSystem={true}>

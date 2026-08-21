@@ -69,9 +69,9 @@ const PostPage = async ({ params }: { params: Params }) => {
         </CustomLink>
       </nav>
       <main className="mx-auto max-w-prose px-4 py-8">
-        <article className="prose prose-gray dark:prose-invert px-4 py-8">
-          <header className="text-center not-prose">
-            <h1 className="font-fraunces text-3xl dark:text-white text-gray-900 leading-relaxed">
+        <article className="prose px-4 py-8 prose-gray dark:prose-invert">
+          <header className="not-prose text-center">
+            <h1 className="font-fraunces text-3xl leading-relaxed text-gray-900 dark:text-white">
               {post.metadata.title}
             </h1>
             <p className="text-sm font-semibold tracking-widest text-gray-600 dark:text-gray-300">
