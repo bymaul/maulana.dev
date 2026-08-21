@@ -69,7 +69,7 @@ export const getFeaturedPost = (): MDXData<PostMetadata> | null => {
   return posts.find((post) => post.metadata.featured) || null;
 };
 
-export const getFeaturedProject = (): MDXData<PostMetadata> | null => {
+export const getFeaturedProject = (): MDXData<ProjectMetadata> | null => {
   const projects = getAllProjects();
   return projects.find((project) => project.metadata.featured) || null;
 };
