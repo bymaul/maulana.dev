@@ -7,11 +7,11 @@ interface BaseMetadata {
   title: string;
   description: string;
   date?: string;
+  featured?: boolean;
 }
 
 interface PostMetadata extends BaseMetadata {
   date: string;
-  featured?: boolean;
 }
 
 interface ProjectMetadata extends BaseMetadata {
@@ -67,6 +67,11 @@ export const getPostBySlug = (slug: string): MDXData<PostMetadata> | undefined =
 export const getFeaturedPost = (): MDXData<PostMetadata> | null => {
   const posts = getAllPosts();
   return posts.find((post) => post.metadata.featured) || null;
+};
+
+export const getFeaturedProject = (): MDXData<PostMetadata> | null => {
+  const projects = getAllProjects();
+  return projects.find((project) => project.metadata.featured) || null;
 };
 
 export const getAllProjects = (): MDXData<ProjectMetadata>[] => {
