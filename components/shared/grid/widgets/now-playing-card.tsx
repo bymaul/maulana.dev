@@ -101,6 +101,8 @@ export default function NowPlayingCard() {
 
   useEffect(() => {
     const fetchNowPlaying = async () => {
+      if (document.hidden) return;
+
       try {
         const response = await fetch('/api/now-playing', {
           cache: 'no-store',
@@ -112,7 +114,7 @@ export default function NowPlayingCard() {
 
     fetchNowPlaying();
 
-    const interval = setInterval(fetchNowPlaying, 15_000);
+    const interval = setInterval(fetchNowPlaying, 30_000);
     window.addEventListener('focus', fetchNowPlaying);
 
     return () => {

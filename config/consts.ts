@@ -17,3 +17,6 @@ export const rowHeights: { [key: string]: number } = {
 };
 
 export const cols = { lg: 4, md: 4, sm: 2, xs: 2, xxs: 2 };
+
+export const CONTAINER_WIDTH_CLASSES =
+  'mx-auto max-w-300 max-lg:max-w-200 max-md:max-w-93.75 max-sm:max-w-80';

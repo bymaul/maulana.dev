@@ -18,5 +18,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     lastModified: project.metadata.date || new Date(),
   }));
 
-  return [...routes, ...posts, ...projects];
+  return [...routes, ...posts, ...projects, { url: `${siteConfig.url}/feed.xml` }];
 }

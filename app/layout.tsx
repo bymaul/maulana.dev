@@ -9,6 +9,7 @@ import { ThemeProvider } from './providers';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.title,
     template: '%s',
@@ -47,6 +48,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: siteConfig.url,
+    types: {
+      'application/rss+xml': `${siteConfig.url}/feed.xml`,
+    },
   },
 };
 

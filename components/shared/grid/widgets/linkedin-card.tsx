@@ -1,6 +1,9 @@
 import { FaArrowRight, FaLinkedin } from 'react-icons/fa6';
 import CustomLink from '@/components/ui/custom-link';
 import Card from '@/components/ui/card';
+import socials from '@/config/socials';
+
+const linkedinUrl = socials.find((social) => social.name.toLowerCase() === 'linkedin')?.url;
 
 export default function LinkedInCard() {
   return (
@@ -8,8 +11,9 @@ export default function LinkedInCard() {
       <div className="absolute bottom-3 left-3">
         <CustomLink
           className="cancel-drag"
-          href="https://linkedin.com/in/maulana-ahmad"
+          href={linkedinUrl ?? 'https://linkedin.com'}
           target="_blank"
+          rel="noopener noreferrer"
         >
           <FaArrowRight className="-rotate-45 transition-transform duration-300 group-hover:rotate-0" />
           <span className="sr-only">LinkedIn</span>

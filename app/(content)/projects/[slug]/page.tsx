@@ -4,11 +4,11 @@ import Container from '@/components/ui/container';
 import GridLayout from '@/components/shared/grid/layout';
 import { CustomMDX } from '@/components/mdx/mdx';
 import { siteConfig } from '@/config/site';
+import { projectLayouts } from '@/config/grid';
 import { getAllProjects, getProjectBySlug } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
 import { FaArrowRight, FaX } from 'react-icons/fa6';
-import { projectLayouts } from '@/config/grid';
 import Image from 'next/image';
 
 type Params = Promise<{ slug: string }>;
@@ -81,7 +81,7 @@ const ProjectPage = async ({ params }: { params: Params }) => {
                       key={link.url}
                       href={link.url}
                       target="_blank"
-                      rel="noreferrer nofollow noopener"
+                      rel="noopener noreferrer"
                       className="inline-flex px-5 py-3 text-sm"
                     >
                       {link.name}
@@ -97,13 +97,13 @@ const ProjectPage = async ({ params }: { params: Params }) => {
           </div>
         </Container>
         {images.length > 0 && (
-          <section aria-label="Project gallery">
-            <GridLayout layouts={projectLayouts} className="-mt-8 pb-16">
-              {images.map((image) => (
-                <div key={image.i}>
+          <section aria-label="Project gallery" className="-mt-8 pb-16">
+            <GridLayout layouts={projectLayouts}>
+              {images.map((url, index) => (
+                <div key={`image-${index}`} id={`image-${index}`}>
                   <Card className="relative">
                     <Image
-                      src={image.url}
+                      src={url}
                       alt={project.metadata.title}
                       fill
                       className="object-cover"

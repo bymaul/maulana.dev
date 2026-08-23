@@ -45,7 +45,10 @@ const PostPage = async ({ params }: { params: Params }) => {
     '@type': 'BlogPosting',
     headline: post.metadata.title,
     description: post.metadata.description,
+    url: `${siteConfig.url}/posts/${post.slug}`,
+    mainEntityOfPage: `${siteConfig.url}/posts/${post.slug}`,
     datePublished: post.metadata.date,
+    dateModified: post.metadata.date,
     author: [
       {
         '@type': 'Person',

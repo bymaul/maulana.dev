@@ -1,6 +1,12 @@
 'use client';
 
-import { breakpoints, cols, rowHeights, type Breakpoint } from '@/config/consts';
+import {
+  breakpoints,
+  cols,
+  rowHeights,
+  CONTAINER_WIDTH_CLASSES,
+  type Breakpoint,
+} from '@/config/consts';
 import { cn } from '@/lib/utils';
 import { Responsive, useContainerWidth, type ResponsiveGridLayoutProps } from 'react-grid-layout';
 import { absoluteStrategy } from 'react-grid-layout/core';
@@ -28,7 +34,7 @@ export default function GridLayout({ layouts, className, children }: GridLayoutP
     <section
       ref={containerRef}
       className={cn(
-        'mx-auto max-w-300 max-lg:max-w-200 max-md:max-w-93.75 max-sm:max-w-80',
+        CONTAINER_WIDTH_CLASSES,
         mounted ? 'opacity-100' : 'opacity-0',
         'transition-opacity duration-700',
         className,

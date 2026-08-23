@@ -2,6 +2,7 @@ import Container from '@/components/ui/container';
 import { siteConfig } from '@/config/site';
 import { getAllPosts, getAllProjects } from '@/lib/mdx';
 import GridRouter from '@/components/shared/grid/grid-router';
+import { parseView } from '@/lib/view';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -9,7 +10,7 @@ type Props = {
 
 export default async function Main({ searchParams }: Props) {
   const resolvedParams = await searchParams;
-  const view = (resolvedParams.view as string) || 'home';
+  const view = parseView(resolvedParams.view);
 
   const posts = getAllPosts().map((post) => ({
     slug: post.slug,

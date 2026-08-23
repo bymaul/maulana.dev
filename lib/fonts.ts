@@ -5,7 +5,6 @@ export const dmSans = DM_Sans({
 });
 
 export const fraunces = Fraunces({
-  weight: ['600', '700', '800'],
   subsets: ['latin'],
   variable: '--font-fraunces',
 });

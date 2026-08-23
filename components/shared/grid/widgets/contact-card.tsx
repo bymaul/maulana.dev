@@ -1,5 +1,6 @@
 import CustomLink from '@/components/ui/custom-link';
 import Card from '@/components/ui/card';
+import { siteConfig } from '@/config/site';
 import socials from '@/config/socials';
 import { FaArrowRight } from 'react-icons/fa6';
 
@@ -14,7 +15,7 @@ export default function ContactCard() {
         just fancy saying hey, then get in touch.
       </p>
       <div className="inline-flex flex-col items-center gap-4 lg:flex-row">
-        <CustomLink className="cancel-drag group px-4 py-2" href="mailto:maulanaajk@gmail.com">
+        <CustomLink className="cancel-drag group px-4 py-2" href={`mailto:${siteConfig.email}`}>
           <FaArrowRight className="-rotate-45 transition-transform duration-300 group-hover:rotate-0" />
           Contact Me
         </CustomLink>
@@ -26,7 +27,7 @@ export default function ContactCard() {
               className="cancel-drag inline-flex size-8 items-center justify-center rounded-full ring ring-gray-200/45 outline-hidden transition-all duration-300 hover:ring-2 focus-visible:ring-2 focus-visible:ring-gray-200/45 focus-visible:outline-hidden dark:ring-gray-200/30"
               aria-label={`My ${social.name}`}
               target="_blank"
-              rel="noreferrer"
+              rel="noopener noreferrer"
             >
               {<social.icon size="1rem" />}
             </a>

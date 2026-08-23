@@ -43,19 +43,18 @@ export default function LocationCard() {
   const { resolvedTheme } = useTheme();
   const isDark = resolvedTheme === 'dark';
 
-  const mapTheme = {
-    lightPreset: isDark ? 'night' : 'day',
-    theme: isDark ? 'monochrome' : 'default',
-  };
+  const lightPreset = isDark ? 'night' : 'day';
+  const basemapTheme = isDark ? 'monochrome' : 'default';
+  const mapTheme = { lightPreset, theme: basemapTheme };
 
   useEffect(() => {
     const map = mapRef.current?.getMap();
 
     if (!map || !loaded) return;
 
-    map.setConfigProperty('basemap', 'lightPreset', mapTheme.lightPreset);
-    map.setConfigProperty('basemap', 'theme', mapTheme.theme);
-  }, [isDark, loaded]);
+    map.setConfigProperty('basemap', 'lightPreset', lightPreset);
+    map.setConfigProperty('basemap', 'theme', basemapTheme);
+  }, [isDark, loaded, lightPreset, basemapTheme]);
 
   useEffect(() => {
     const map = mapRef.current?.getMap();
@@ -77,7 +76,11 @@ export default function LocationCard() {
   }, [loaded]);
 
   const handleZoom = (zoomIn: boolean) => {
-    zoomIn ? mapRef.current?.zoomIn() : mapRef.current?.zoomOut();
+    if (zoomIn) {
+      mapRef.current?.zoomIn();
+    } else {
+      mapRef.current?.zoomOut();
+    }
   };
 
   const handleZoomEnd = () => {
@@ -87,7 +90,12 @@ export default function LocationCard() {
   };
 
   return (
-    <Card ref={containerRef} className="relative size-full">
+    <Card
+      ref={containerRef}
+      className="relative size-full"
+      role="region"
+      aria-label="Interactive map of Yogyakarta"
+    >
       <Map
         ref={mapRef}
         mapboxAccessToken={mapboxToken}
@@ -114,7 +122,7 @@ export default function LocationCard() {
             <Button
               aria-label="Zoom out"
               isVisible={zoom > MIN_ZOOM}
-              onClick={() => handleZoom(true)}
+              onClick={() => handleZoom(false)}
             >
               <FaMinus />
             </Button>
@@ -122,7 +130,7 @@ export default function LocationCard() {
             <Button
               aria-label="Zoom in"
               isVisible={zoom < MAX_ZOOM}
-              onClick={() => handleZoom(false)}
+              onClick={() => handleZoom(true)}
             >
               <FaPlus />
             </Button>

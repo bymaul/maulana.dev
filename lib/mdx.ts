@@ -3,20 +3,23 @@ import matter from 'gray-matter';
 import path from 'path';
 import { cache } from 'react';
 
-interface BaseMetadata {
+export interface BaseMetadata {
   title: string;
   description: string;
   date?: string;
   featured?: boolean;
 }
 
-interface PostMetadata extends BaseMetadata {
+export interface PostMetadata extends BaseMetadata {
   date: string;
 }
 
-interface ProjectMetadata extends BaseMetadata {
+export interface ProjectMetadata extends BaseMetadata {
   links: { name: string; url: string }[];
-  images?: { i: string; url: string }[];
+  images?: string[];
+  preview?: {
+    images: string[];
+  };
 }
 
 type MDXData<T extends BaseMetadata> = {
@@ -24,6 +27,12 @@ type MDXData<T extends BaseMetadata> = {
   slug: string;
   content: string;
 };
+
+const isValidMetadata = (metadata: Partial<BaseMetadata>): boolean =>
+  typeof metadata.title === 'string' &&
+  metadata.title.trim().length > 0 &&
+  typeof metadata.description === 'string' &&
+  metadata.description.trim().length > 0;
 
 const getMDXData = cache(<T extends BaseMetadata>(dir: string): MDXData<T>[] => {
   if (!fs.existsSync(dir)) {
@@ -44,6 +53,14 @@ const getMDXData = cache(<T extends BaseMetadata>(dir: string): MDXData<T>[] => 
         slug: path.basename(dirent.name, path.extname(dirent.name)),
         content,
       };
+    })
+    .filter(({ slug, metadata }) => {
+      if (isValidMetadata(metadata)) return true;
+
+      console.warn(
+        `[mdx] Skipping "${slug}" in ${path.relative(process.cwd(), dir)}: missing required "title" or "description" frontmatter.`,
+      );
+      return false;
     });
 });
 
@@ -77,7 +94,15 @@ export const getFeaturedProject = (): MDXData<ProjectMetadata> | null => {
 export const getAllProjects = (): MDXData<ProjectMetadata>[] => {
   const projects = getMDXData<ProjectMetadata>(path.join(process.cwd(), 'content/projects'));
 
-  return projects.sort(byDateDesc);
+  return projects
+    .map((project) => ({
+      ...project,
+      metadata: {
+        ...project.metadata,
+        links: project.metadata.links ?? [],
+      },
+    }))
+    .sort(byDateDesc);
 };
 
 export const getProjectBySlug = (slug: string): MDXData<ProjectMetadata> | undefined =>

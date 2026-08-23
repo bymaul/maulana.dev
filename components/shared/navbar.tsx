@@ -4,8 +4,9 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useLayoutEffect, useRef, useState, Suspense } from 'react';
 import { cn } from '@/lib/utils';
+import { parseView, type ViewId } from '@/lib/view';
 
-const navItems = [
+const navItems: { name: string; path: string; viewId: ViewId; match: string }[] = [
   { name: 'Home', path: '/', viewId: 'home', match: '/' },
   { name: 'Articles', path: '/?view=articles', viewId: 'articles', match: '/posts' },
   { name: 'Projects', path: '/?view=projects', viewId: 'projects', match: '/projects' },
@@ -16,7 +17,7 @@ const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffec
 function NavContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const view = searchParams.get('view') || 'home';
+  const view = parseView(searchParams.get('view'));
   const navRef = useRef<HTMLDivElement>(null);
   const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
 
@@ -40,7 +41,6 @@ function NavContent() {
     <nav
       ref={navRef}
       className="relative flex touch-manipulation items-center rounded-full border border-black/10 bg-white/50 p-1.5 shadow-lg backdrop-blur-lg select-none dark:border-white/10 dark:bg-dark-950/50"
-      role="navigation"
       aria-label="Main navigation"
     >
       {indicator && (

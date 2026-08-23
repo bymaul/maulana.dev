@@ -1,23 +1,19 @@
 import GridItem from '@/components/shared/grid/item';
 import GridLayout from '@/components/shared/grid/layout';
-import Card from '@/components/ui/card';
-import { gridItems as homeGridItems } from '@/config/grid';
+import EntryCard from '@/components/shared/grid/entry-card';
+import { getGridItems } from '@/config/grid';
+import type { BaseMetadata } from '@/lib/mdx';
+import type { ViewId } from '@/lib/view';
 import { formatDate } from '@/lib/utils';
-import Link from 'next/link';
-import { useMemo } from 'react';
 import type { LayoutItem } from 'react-grid-layout';
 
 export type ContentData = {
   slug: string;
-  metadata: {
-    title: string;
-    description: string;
-    date?: string;
-  };
+  metadata: BaseMetadata;
 };
 
 interface EntriesGridProps {
-  view: string;
+  view: Exclude<ViewId, 'home'>;
   posts: ContentData[];
   projects: ContentData[];
 }
@@ -68,83 +64,33 @@ const baseItemIds = ['description', 'location', 'theme', 'contact'];
 
 const getBadgeText = (date?: string) => (date ? formatDate(date) : 'Article');
 
-function EntryCard({
-  href,
-  badge,
-  title,
-  description,
-}: {
-  href: string;
-  badge: string;
-  title: string;
-  description: string;
-}) {
-  return (
-    <Card className="group relative h-full">
-      <div className="relative z-10 flex h-full flex-col justify-between p-5 md:p-8">
-        <div className="flex flex-col gap-3">
-          <h2 className="font-fraunces text-2xl leading-tight font-semibold text-gray-900 dark:text-white">
-            <Link href={href} className="cancel-drag transition-colors">
-              {title}
-            </Link>
-          </h2>
-          <p className="pointer-events-none text-gray-600 max-lg:line-clamp-4 dark:text-dark-300">
-            {description}
-          </p>
-        </div>
-        <div className="mt-6 flex items-center">
-          <span className="rounded-full border border-gray-200 bg-gray-100 px-4 py-1.5 text-xs font-medium text-gray-600 dark:border-dark-800 dark:bg-dark-800 dark:text-dark-300">
-            {badge}
-          </span>
-        </div>
-      </div>
-    </Card>
-  );
-}
-
 export default function EntriesGrid({ view, posts, projects }: EntriesGridProps) {
   const isArticles = view === 'articles';
   const entries = isArticles ? posts : projects;
   const hrefBase = isArticles ? '/posts' : '/projects';
 
-  const baseItems = useMemo(
-    () =>
-      homeGridItems
-        .filter((item) => baseItemIds.includes(item.i))
-        .map((item) => <GridItem key={item.i} id={item.i} component={item.component} />),
-    [],
-  );
+  const baseItems = getGridItems()
+    .filter((item) => baseItemIds.includes(item.i))
+    .map((item) => <GridItem key={item.i} id={item.i} component={item.component} />);
 
-  const mergedLayouts = useMemo(() => {
-    const ids = [...entries.map((e) => e.slug), 'contact'];
+  const ids = [...entries.map((e) => e.slug), 'contact'];
 
-    const newLayouts = {
-      lg: generateLayout(ids, 'lg'),
-      md: generateLayout(ids, 'md'),
-      sm: generateLayout(ids, 'sm'),
-    };
+  const mergedLayouts = {
+    lg: [...baseLayouts.lg, ...generateLayout(ids, 'lg')],
+    md: [...baseLayouts.md, ...generateLayout(ids, 'md')],
+    sm: [...baseLayouts.sm, ...generateLayout(ids, 'sm')],
+  };
 
-    return {
-      lg: [...baseLayouts.lg, ...newLayouts.lg],
-      md: [...baseLayouts.md, ...newLayouts.md],
-      sm: [...baseLayouts.sm, ...newLayouts.sm],
-    };
-  }, [entries]);
-
-  const newItems = useMemo(
-    () =>
-      entries.map((entry) => (
-        <div key={entry.slug} className="h-full">
-          <EntryCard
-            href={`${hrefBase}/${entry.slug}`}
-            badge={isArticles ? getBadgeText(entry.metadata.date) : 'Project'}
-            title={entry.metadata.title}
-            description={entry.metadata.description}
-          />
-        </div>
-      )),
-    [entries, isArticles, hrefBase],
-  );
+  const newItems = entries.map((entry) => (
+    <div key={entry.slug} className="h-full">
+      <EntryCard
+        href={`${hrefBase}/${entry.slug}`}
+        badge={isArticles ? getBadgeText(entry.metadata.date) : 'Project'}
+        title={entry.metadata.title}
+        description={entry.metadata.description}
+      />
+    </div>
+  ));
 
   return <GridLayout layouts={mergedLayouts}>{[...baseItems, ...newItems]}</GridLayout>;
 }
