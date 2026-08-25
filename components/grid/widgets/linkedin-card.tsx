@@ -7,7 +7,7 @@ const linkedinUrl = socials.find((social) => social.name.toLowerCase() === 'link
 
 export default function LinkedInCard() {
   return (
-    <Card className="relative flex h-full flex-col items-center justify-center bg-[#0A66C2] dark:bg-[#0A66C2]">
+    <Card className="relative flex h-full flex-col items-center justify-center bg-[#0A66C2]">
       <div className="absolute bottom-3 left-3">
         <CustomLink
           className="cancel-drag"
