@@ -1,4 +1,5 @@
 import Card from '@/components/card';
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
 interface EntryCardProps {
@@ -26,7 +27,11 @@ export default function EntryCard({
             </Link>
           </h2>
           <p
-            className={`pointer-events-none text-gray-600 ${descriptionClassName} dark:text-dark-300`}
+            className={cn(
+              'pointer-events-none text-gray-600',
+              descriptionClassName,
+              'dark:text-dark-300',
+            )}
           >
             {description}
           </p>
