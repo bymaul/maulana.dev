@@ -37,4 +37,6 @@ export const siteConfig = {
   ogImage: '/images/og-image.png',
   author: 'Maulana',
   email: 'maulanaatriadi@gmail.com',
+  role: 'a software developer from Yogyakarta, Indonesia.',
+  tagline: 'I love building reliable software and learning new things.',
 };
