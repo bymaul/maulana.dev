@@ -14,9 +14,13 @@ interface GridItem {
   component: React.ComponentType;
 }
 
+const featuredSlugs = () => ({
+  post: getFeaturedPost()?.slug ?? 'article',
+  project: getFeaturedProject()?.slug ?? 'project',
+});
+
 export const getGridItems = (): GridItem[] => {
-  const postSlug = getFeaturedPost()?.slug ?? 'article';
-  const projectSlug = getFeaturedProject()?.slug ?? 'project';
+  const { post: postSlug, project: projectSlug } = featuredSlugs();
 
   return [
     { i: 'description', component: DescriptionCard },
@@ -31,8 +35,7 @@ export const getGridItems = (): GridItem[] => {
 };
 
 export const getLayouts = (): Record<'lg' | 'md' | 'sm', LayoutItem[]> => {
-  const postSlug = getFeaturedPost()?.slug ?? 'article';
-  const projectSlug = getFeaturedProject()?.slug ?? 'project';
+  const { post: postSlug, project: projectSlug } = featuredSlugs();
 
   return {
     lg: [
