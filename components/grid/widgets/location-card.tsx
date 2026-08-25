@@ -1,6 +1,6 @@
 'use client';
 
-import Card from '@/components/ui/card';
+import Card from '@/components/card';
 import { cn } from '@/lib/utils';
 import { useTheme } from 'next-themes';
 import { useEffect, useRef, useState } from 'react';

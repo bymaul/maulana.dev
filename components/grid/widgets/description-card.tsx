@@ -1,7 +1,7 @@
 import profile from '@/public/images/profile.jpg';
 import Image from 'next/image';
 import { siteConfig } from '@/config/site';
-import Card from '@/components/ui/card';
+import Card from '@/components/card';
 
 export default function DescriptionCard() {
   return (

@@ -1,10 +1,10 @@
-import Navbar from '@/components/shared/navbar';
+import Navbar from '@/components/navbar';
 import { siteConfig } from '@/config/site';
 import { dmSans, fraunces } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
 import type { Metadata } from 'next';
-import { ThemeProvider } from './providers';
+import { ThemeProvider } from 'next-themes';
 
 import './globals.css';
 

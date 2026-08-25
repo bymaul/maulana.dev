@@ -1,4 +1,4 @@
-import Card from '@/components/ui/card';
+import Card from '@/components/card';
 import Link from 'next/link';
 
 interface EntryCardProps {

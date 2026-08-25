@@ -1,8 +1,8 @@
-import CustomLink from '@/components/ui/custom-link';
-import Card from '@/components/ui/card';
-import Container from '@/components/ui/container';
-import GridLayout from '@/components/shared/grid/layout';
-import { CustomMDX } from '@/components/mdx/mdx';
+import CustomLink from '@/components/custom-link';
+import Card from '@/components/card';
+import Container from '@/components/container';
+import GridLayout from '@/components/grid/layout';
+import { CustomMDX } from '@/components/mdx';
 import { siteConfig } from '@/config/site';
 import { projectLayouts } from '@/config/grid';
 import { getAllProjects, getProjectBySlug } from '@/lib/mdx';

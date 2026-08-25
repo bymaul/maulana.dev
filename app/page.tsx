@@ -1,8 +1,9 @@
-import Container from '@/components/ui/container';
+import Container from '@/components/container';
+import EntriesGrid from '@/components/grid/entries-grid';
+import HomeGrid from '@/components/grid/home-grid';
 import { siteConfig } from '@/config/site';
 import { getAllPosts, getAllProjects } from '@/lib/mdx';
-import GridRouter from '@/components/shared/grid/grid-router';
-import { parseView } from '@/lib/view';
+import { parseView } from '@/lib/utils';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -28,7 +29,11 @@ export default async function Main({ searchParams }: Props) {
         <h1 className="sr-only">{siteConfig.title}</h1>
       </Container>
       <main className="py-8 pb-20">
-        <GridRouter view={view} posts={posts} projects={projects} />
+        {view === 'home' ? (
+          <HomeGrid />
+        ) : (
+          <EntriesGrid view={view} posts={posts} projects={projects} />
+        )}
       </main>
     </>
   );

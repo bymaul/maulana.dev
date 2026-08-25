@@ -1,11 +1,11 @@
-import ArticleCard from '@/components/shared/grid/widgets/article-card';
-import ContactCard from '@/components/shared/grid/widgets/contact-card';
-import DescriptionCard from '@/components/shared/grid/widgets/description-card';
-import DynamicLocationCard from '@/components/shared/grid/widgets/dynamic-location-card';
-import LinkedInCard from '@/components/shared/grid/widgets/linkedin-card';
-import NowPlayingCard from '@/components/shared/grid/widgets/now-playing-card';
-import ProjectCard from '@/components/shared/grid/widgets/project-card';
-import ThemeToggle from '@/components/shared/grid/widgets/theme-toggle';
+import ArticleCard from '@/components/grid/widgets/article-card';
+import ContactCard from '@/components/grid/widgets/contact-card';
+import DescriptionCard from '@/components/grid/widgets/description-card';
+import DynamicLocationCard from '@/components/grid/widgets/dynamic-location-card';
+import LinkedInCard from '@/components/grid/widgets/linkedin-card';
+import NowPlayingCard from '@/components/grid/widgets/now-playing-card';
+import ProjectCard from '@/components/grid/widgets/project-card';
+import ThemeToggle from '@/components/grid/widgets/theme-toggle';
 import { getFeaturedPost, getFeaturedProject } from '@/lib/mdx';
 import { LayoutItem } from 'react-grid-layout';
 

@@ -1,8 +1,31 @@
-import { extractHeadingText, toKebabCase } from '@/lib/utils';
 import { MDXRemote, MDXRemoteProps } from 'next-mdx-remote/rsc';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ComponentPropsWithoutRef, createElement, type ReactNode } from 'react';
+import { ComponentPropsWithoutRef, createElement, isValidElement, type ReactNode } from 'react';
+
+function toKebabCase(string: string): string {
+  return string
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-+)|(-+$)/g, '');
+}
+
+function extractHeadingText(node: ReactNode): string {
+  if (typeof node === 'string' || typeof node === 'number') {
+    return String(node);
+  }
+
+  if (Array.isArray(node)) {
+    return node.map(extractHeadingText).join('');
+  }
+
+  if (isValidElement(node)) {
+    return extractHeadingText((node.props as { children?: ReactNode }).children);
+  }
+
+  return '';
+}
 
 type CustomLinkProps = ComponentPropsWithoutRef<'a'>;
 

@@ -1,9 +1,8 @@
-import GridItem from '@/components/shared/grid/item';
-import GridLayout from '@/components/shared/grid/layout';
-import EntryCard from '@/components/shared/grid/entry-card';
+import GridLayout from '@/components/grid/layout';
+import EntryCard from '@/components/grid/entry-card';
 import { getGridItems } from '@/config/grid';
 import type { BaseMetadata } from '@/lib/mdx';
-import type { ViewId } from '@/lib/view';
+import type { ViewId } from '@/lib/utils';
 import { formatDate } from '@/lib/utils';
 import type { LayoutItem } from 'react-grid-layout';
 
@@ -71,7 +70,11 @@ export default function EntriesGrid({ view, posts, projects }: EntriesGridProps)
 
   const baseItems = getGridItems()
     .filter((item) => baseItemIds.includes(item.i))
-    .map((item) => <GridItem key={item.i} id={item.i} component={item.component} />);
+    .map(({ i, component: Widget }) => (
+      <div key={i} id={i}>
+        <Widget />
+      </div>
+    ));
 
   const ids = [...entries.map((e) => e.slug), 'contact'];
 

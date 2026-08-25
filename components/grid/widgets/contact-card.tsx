@@ -1,7 +1,6 @@
-import CustomLink from '@/components/ui/custom-link';
-import Card from '@/components/ui/card';
-import { siteConfig } from '@/config/site';
-import socials from '@/config/socials';
+import CustomLink from '@/components/custom-link';
+import Card from '@/components/card';
+import { siteConfig, socials } from '@/config/site';
 import { FaArrowRight } from 'react-icons/fa6';
 
 export default function ContactCard() {

@@ -3,8 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useLayoutEffect, useRef, useState, Suspense } from 'react';
-import { cn } from '@/lib/utils';
-import { parseView, type ViewId } from '@/lib/view';
+import { cn, parseView, type ViewId } from '@/lib/utils';
 
 const navItems: { name: string; path: string; viewId: ViewId; match: string }[] = [
   { name: 'Home', path: '/', viewId: 'home', match: '/' },

@@ -1,5 +1,5 @@
-import CustomLink from '@/components/ui/custom-link';
-import { CustomMDX } from '@/components/mdx/mdx';
+import CustomLink from '@/components/custom-link';
+import { CustomMDX } from '@/components/mdx';
 import { siteConfig } from '@/config/site';
 import { getAllPosts, getPostBySlug } from '@/lib/mdx';
 import { formatDate } from '@/lib/utils';

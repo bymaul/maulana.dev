@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  breakpoints,
-  cols,
-  rowHeights,
-  CONTAINER_WIDTH_CLASSES,
-  type Breakpoint,
-} from '@/config/consts';
+import { CONTAINER_WIDTH_CLASSES } from '@/components/container';
 import { cn } from '@/lib/utils';
 import { Responsive, useContainerWidth, type ResponsiveGridLayoutProps } from 'react-grid-layout';
 import { absoluteStrategy } from 'react-grid-layout/core';
@@ -16,6 +10,26 @@ type GridLayoutProps = Readonly<
     className?: string;
   }
 >;
+
+type Breakpoint = 'lg' | 'md' | 'sm' | 'xs' | 'xxs';
+
+const breakpoints: Record<Breakpoint, number> = {
+  lg: 1199,
+  md: 799,
+  sm: 374,
+  xs: 319,
+  xxs: 0,
+};
+
+const rowHeights: Record<Breakpoint, number> = {
+  lg: 280,
+  md: 180,
+  sm: 164,
+  xs: 136,
+  xxs: 132,
+};
+
+const cols = { lg: 4, md: 4, sm: 2, xs: 2, xxs: 2 };
 
 const breakpointKeys: Breakpoint[] = ['lg', 'md', 'sm', 'xs', 'xxs'];
 

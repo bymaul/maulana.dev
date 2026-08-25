@@ -1,7 +1,7 @@
 import { FaArrowRight, FaLinkedin } from 'react-icons/fa6';
-import CustomLink from '@/components/ui/custom-link';
-import Card from '@/components/ui/card';
-import socials from '@/config/socials';
+import CustomLink from '@/components/custom-link';
+import Card from '@/components/card';
+import { socials } from '@/config/site';
 
 const linkedinUrl = socials.find((social) => social.name.toLowerCase() === 'linkedin')?.url;
 

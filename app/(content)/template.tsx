@@ -1,6 +1,6 @@
 'use client';
 
-import { useMounted } from '@/hooks';
+import { useMounted } from '@/lib/hooks';
 import { cn } from '@/lib/utils';
 
 export default function Template({
