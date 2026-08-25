@@ -1,5 +1,7 @@
-import { CONTAINER_WIDTH_CLASSES } from '@/config/consts';
 import { cn } from '@/lib/utils';
+
+export const CONTAINER_WIDTH_CLASSES =
+  'mx-auto max-w-300 max-lg:max-w-200 max-md:max-w-93.75 max-sm:max-w-80';
 
 interface ContainerProps<T extends React.ElementType> {
   as?: T;

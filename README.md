@@ -45,13 +45,13 @@ pnpm dev
 
 ```
 .
-├── app/          # App Router routes, layouts, and pages
-├── components/   # Reusable UI components
-├── config/       # Site configuration (metadata, nav, etc.)
-├── content/      # MDX content (posts, projects, etc.)
-├── hooks/        # Custom React hooks
-├── lib/          # Utilities and shared logic
-└── public/       # Static assets
+├── app/            # App Router routes, layouts, and pages
+├── components/     # UI primitives (card, container, navbar) and MDX renderer
+│   └── grid/       # Draggable bento grid system and its widgets
+├── config/         # Site data and grid layout definitions
+├── content/        # MDX content (posts and projects)
+├── lib/            # Utilities, hooks, fonts, and content loaders
+└── public/         # Static assets
 ```
 
 ## License

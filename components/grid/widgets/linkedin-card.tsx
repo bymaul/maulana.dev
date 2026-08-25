@@ -1,13 +1,13 @@
 import { FaArrowRight, FaLinkedin } from 'react-icons/fa6';
-import CustomLink from '@/components/ui/custom-link';
-import Card from '@/components/ui/card';
-import socials from '@/config/socials';
+import CustomLink from '@/components/custom-link';
+import Card from '@/components/card';
+import { socials } from '@/config/site';
 
 const linkedinUrl = socials.find((social) => social.name.toLowerCase() === 'linkedin')?.url;
 
 export default function LinkedInCard() {
   return (
-    <Card className="relative flex h-full flex-col items-center justify-center bg-[#0A66C2] dark:bg-[#0A66C2]">
+    <Card className="relative flex h-full flex-col items-center justify-center bg-[#0A66C2]">
       <div className="absolute bottom-3 left-3">
         <CustomLink
           className="cancel-drag"

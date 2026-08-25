@@ -1,10 +1,10 @@
-import CustomLink from '@/components/ui/custom-link';
-import Card from '@/components/ui/card';
-import Container from '@/components/ui/container';
-import GridLayout from '@/components/shared/grid/layout';
-import { CustomMDX } from '@/components/mdx/mdx';
-import { siteConfig } from '@/config/site';
+import CustomLink from '@/components/custom-link';
+import Card from '@/components/card';
+import Container from '@/components/container';
+import GridLayout from '@/components/grid/layout';
+import { CustomMDX } from '@/components/mdx';
 import { projectLayouts } from '@/config/grid';
+import { buildJsonLd, buildMetadata } from '@/lib/metadata';
 import { getAllProjects, getProjectBySlug } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
 import Script from 'next/script';
@@ -22,20 +22,11 @@ export const generateMetadata = async ({ params }: { params: Params }) => {
   if (!project) return;
 
   const { title, description } = project.metadata;
-  return {
+  return buildMetadata({
     title: `${title} — Projects`,
     description,
-    openGraph: {
-      title,
-      description,
-      type: 'article',
-      url: `${siteConfig.url}/projects/${project.slug}`,
-      authors: siteConfig.author,
-      images: siteConfig.ogImage,
-    },
-    twitter: { title, description, images: siteConfig.ogImage },
-    alternates: { canonical: `${siteConfig.url}/projects/${project.slug}` },
-  };
+    path: `/projects/${project.slug}`,
+  });
 };
 
 const ProjectPage = async ({ params }: { params: Params }) => {
@@ -47,13 +38,12 @@ const ProjectPage = async ({ params }: { params: Params }) => {
   const links = project.metadata.links;
   const images = project.metadata.images ?? [];
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: project.metadata.title,
-    description: project.metadata.description,
-    author: [{ '@type': 'Person', name: siteConfig.author, url: siteConfig.url }],
-  };
+  const jsonLd = buildJsonLd(
+    'Article',
+    project.metadata.title,
+    project.metadata.description,
+    `/projects/${project.slug}`,
+  );
 
   return (
     <>

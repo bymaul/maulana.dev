@@ -1,6 +1,6 @@
 import { FaArrowRight } from 'react-icons/fa6';
-import Container from '@/components/ui/container';
-import CustomLink from '@/components/ui/custom-link';
+import Container from '@/components/container';
+import CustomLink from '@/components/custom-link';
 
 export default function NotFound() {
   return (

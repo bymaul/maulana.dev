@@ -1,4 +1,4 @@
-import EntryCard from '@/components/shared/grid/entry-card';
+import EntryCard from '@/components/grid/entry-card';
 import { getFeaturedPost } from '@/lib/mdx';
 import { formatDate } from '@/lib/utils';
 

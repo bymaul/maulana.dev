@@ -1,5 +1,5 @@
-import Card from '@/components/ui/card';
-import CustomLink from '@/components/ui/custom-link';
+import Card from '@/components/card';
+import CustomLink from '@/components/custom-link';
 import { getFeaturedProject } from '@/lib/mdx';
 import Image from 'next/image';
 import { FaArrowRight } from 'react-icons/fa6';
@@ -12,12 +12,15 @@ interface PreviewSlot {
   height: number;
 }
 
+const PREVIEW_SIZES =
+  '(max-width: 374px) 70px, (max-width: 798px) 80px, (max-width: 1198px) 100px, 140px';
+
 const PREVIEW_SLOTS: PreviewSlot[] = [
   {
     container:
       'absolute top-1/2 left-0 z-0 w-17.5 -translate-x-1/4 -translate-y-1/2 transition-all duration-500 group-hover:-translate-y-[45%] sm:w-20 md:w-25 lg:w-35',
     image: 'h-auto w-17.5 rotate-15 object-cover sm:w-20 md:w-25 lg:w-110',
-    sizes: '(max-width: 374px) 70px, (max-width: 798px) 80px, (max-width: 1198px) 100px, 140px',
+    sizes: PREVIEW_SIZES,
     width: 400,
     height: 200,
   },
@@ -25,7 +28,7 @@ const PREVIEW_SLOTS: PreviewSlot[] = [
     container:
       'absolute top-0 right-0 z-0 w-17.5 translate-y-[-40%] transition-all duration-800 group-hover:translate-y-[-30%] sm:w-20 md:w-25 lg:w-35',
     image: 'h-auto w-17.5 -rotate-150 object-cover sm:w-20 md:w-25 lg:w-110',
-    sizes: '(max-width: 374px) 70px, (max-width: 798px) 80px, (max-width: 1198px) 100px, 140px',
+    sizes: PREVIEW_SIZES,
     width: 400,
     height: 200,
   },

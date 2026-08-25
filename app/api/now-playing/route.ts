@@ -8,6 +8,8 @@ const {
 
 const basic = Buffer.from(`${id}:${secret}`).toString('base64');
 
+const CACHE_CONTROL = 'public, s-maxage=30, stale-while-revalidate=60';
+
 let cachedToken: { value: string; expiresAt: number } | null = null;
 
 const fetchSpotify = (url: string, token: string) =>
@@ -52,10 +54,7 @@ const getAccessToken = async (): Promise<string | null> => {
 };
 
 const notPlaying = () =>
-  NextResponse.json(
-    { isPlaying: false },
-    { headers: { 'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60' } },
-  );
+  NextResponse.json({ isPlaying: false }, { headers: { 'Cache-Control': CACHE_CONTROL } });
 
 export async function GET() {
   const token = await getAccessToken();
@@ -81,7 +80,7 @@ export async function GET() {
             albumImageUrl: data.item.album.images[0]?.url || '',
             songUrl: data.item.external_urls.spotify,
           },
-          { headers: { 'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60' } },
+          { headers: { 'Cache-Control': CACHE_CONTROL } },
         );
       }
     }
@@ -103,7 +102,7 @@ export async function GET() {
             albumImageUrl: track.album.images[0]?.url || '',
             songUrl: track.external_urls.spotify,
           },
-          { headers: { 'Cache-Control': 'public, s-maxage=30, stale-while-revalidate=60' } },
+          { headers: { 'Cache-Control': CACHE_CONTROL } },
         );
       }
     }

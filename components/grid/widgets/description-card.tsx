@@ -1,7 +1,7 @@
 import profile from '@/public/images/profile.jpg';
 import Image from 'next/image';
 import { siteConfig } from '@/config/site';
-import Card from '@/components/ui/card';
+import Card from '@/components/card';
 
 export default function DescriptionCard() {
   return (
@@ -19,12 +19,9 @@ export default function DescriptionCard() {
       <p className="leading-relaxed text-gray-700 dark:text-dark-300">
         Hi, I&apos;m{' '}
         <span className="font-fraunces text-2xl font-semibold text-gray-900 dark:text-white">
-          Maulana
+          {siteConfig.author}
         </span>
-        , a software developer from Yogyakarta, Indonesia.{' '}
-        <span className="hidden md:inline">
-          I love building reliable software and learning new things.
-        </span>
+        , {siteConfig.role} <span className="hidden md:inline">{siteConfig.tagline}</span>
       </p>
     </Card>
   );

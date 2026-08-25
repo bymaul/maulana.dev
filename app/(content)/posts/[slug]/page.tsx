@@ -1,6 +1,6 @@
-import CustomLink from '@/components/ui/custom-link';
-import { CustomMDX } from '@/components/mdx/mdx';
-import { siteConfig } from '@/config/site';
+import CustomLink from '@/components/custom-link';
+import { CustomMDX } from '@/components/mdx';
+import { buildJsonLd, buildMetadata } from '@/lib/metadata';
 import { getAllPosts, getPostBySlug } from '@/lib/mdx';
 import { formatDate } from '@/lib/utils';
 import { notFound } from 'next/navigation';
@@ -17,21 +17,12 @@ export const generateMetadata = async ({ params }: { params: Params }) => {
   if (!post) return;
 
   const { title, description, date } = post.metadata;
-  return {
+  return buildMetadata({
     title,
     description,
-    openGraph: {
-      title,
-      description,
-      type: 'article',
-      publishedTime: date,
-      url: `${siteConfig.url}/posts/${post.slug}`,
-      authors: siteConfig.author,
-      images: siteConfig.ogImage,
-    },
-    twitter: { title, description, images: siteConfig.ogImage },
-    alternates: { canonical: `${siteConfig.url}/posts/${post.slug}` },
-  };
+    path: `/posts/${post.slug}`,
+    publishedTime: date,
+  });
 };
 
 const PostPage = async ({ params }: { params: Params }) => {
@@ -40,23 +31,13 @@ const PostPage = async ({ params }: { params: Params }) => {
 
   if (!post) notFound();
 
-  const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'BlogPosting',
-    headline: post.metadata.title,
-    description: post.metadata.description,
-    url: `${siteConfig.url}/posts/${post.slug}`,
-    mainEntityOfPage: `${siteConfig.url}/posts/${post.slug}`,
-    datePublished: post.metadata.date,
-    dateModified: post.metadata.date,
-    author: [
-      {
-        '@type': 'Person',
-        name: siteConfig.author,
-        url: siteConfig.url,
-      },
-    ],
-  };
+  const jsonLd = buildJsonLd(
+    'BlogPosting',
+    post.metadata.title,
+    post.metadata.description,
+    `/posts/${post.slug}`,
+    post.metadata.date,
+  );
 
   return (
     <>

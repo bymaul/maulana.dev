@@ -1,6 +1,6 @@
 'use client';
 
-import Card from '@/components/ui/card';
+import Card from '@/components/card';
 import { useEffect, useState } from 'react';
 import { FaSpotify } from 'react-icons/fa6';
 
