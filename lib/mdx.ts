@@ -75,7 +75,7 @@ const byDateDesc = <T extends BaseMetadata>(a: MDXData<T>, b: MDXData<T>): numbe
 export const getAllPosts = (): MDXData<PostMetadata>[] => {
   const posts = getMDXData<PostMetadata>(path.join(process.cwd(), 'content/posts'));
 
-  return posts.sort(byDateDesc);
+  return [...posts].sort(byDateDesc);
 };
 
 export const getPostBySlug = (slug: string): MDXData<PostMetadata> | undefined =>

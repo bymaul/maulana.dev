@@ -7,7 +7,6 @@ import { projectLayouts } from '@/config/grid';
 import { buildJsonLd, buildMetadata } from '@/lib/metadata';
 import { getAllProjects, getProjectBySlug } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
-import Script from 'next/script';
 import { FaArrowRight, FaX } from 'react-icons/fa6';
 import Image from 'next/image';
 
@@ -47,10 +46,9 @@ const ProjectPage = async ({ params }: { params: Params }) => {
 
   return (
     <>
-      <Script
-        id="json-ld"
+      <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
       <nav className="flex items-center justify-center pt-10">
         <CustomLink className="inline-flex hover:mb-6 hover:scale-125" href="/">

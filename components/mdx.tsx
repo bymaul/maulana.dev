@@ -71,32 +71,46 @@ function RoundedImage({ src, alt, ...props }: ComponentPropsWithoutRef<typeof Im
   );
 }
 
-function createHeading(level: number) {
-  const Heading = ({ children }: { children: ReactNode }) => {
-    const slug = toKebabCase(extractHeadingText(children));
+function createHeadings() {
+  const usedSlugs = new Set<string>();
 
-    return createElement(
-      `h${level}`,
-      { id: slug },
-      createElement('a', {
-        href: `#${slug}`,
-        className: 'anchor',
-      }),
-      children,
-    );
+  const createHeading = (level: number) => {
+    const Heading = ({ children }: { children: ReactNode }) => {
+      const base = toKebabCase(extractHeadingText(children)) || 'heading';
+      let slug = base;
+      let suffix = 2;
+
+      while (usedSlugs.has(slug)) {
+        slug = `${base}-${suffix++}`;
+      }
+      usedSlugs.add(slug);
+
+      return createElement(
+        `h${level}`,
+        { id: slug },
+        createElement('a', {
+          href: `#${slug}`,
+          className: 'anchor',
+        }),
+        children,
+      );
+    };
+
+    Heading.displayName = `Heading${level}`;
+    return Heading;
   };
 
-  Heading.displayName = `Heading${level}`;
-  return Heading;
+  return {
+    h1: createHeading(1),
+    h2: createHeading(2),
+    h3: createHeading(3),
+    h4: createHeading(4),
+    h5: createHeading(5),
+    h6: createHeading(6),
+  };
 }
 
 const components = {
-  h1: createHeading(1),
-  h2: createHeading(2),
-  h3: createHeading(3),
-  h4: createHeading(4),
-  h5: createHeading(5),
-  h6: createHeading(6),
   img: RoundedImage,
   a: CustomLink,
 };
@@ -106,7 +120,7 @@ export function CustomMDX({ ...props }: MDXRemoteProps) {
     <MDXRemote
       {...props}
       source={props.source}
-      components={{ ...components, ...(props.components || {}) }}
+      components={{ ...createHeadings(), ...components, ...(props.components || {}) }}
     />
   );
 }

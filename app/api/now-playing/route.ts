@@ -109,6 +109,9 @@ export async function GET() {
 
     return notPlaying();
   } catch {
-    return NextResponse.json({ isPlaying: false }, { status: 500 });
+    return NextResponse.json(
+      { isPlaying: false },
+      { status: 500, headers: { 'Cache-Control': 'no-store' } },
+    );
   }
 }

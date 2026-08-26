@@ -79,14 +79,18 @@ function SongInfo({ data, compact = false }: { data: SpotifyData; compact?: bool
   return (
     <div className="min-w-0">
       <h2 className={`truncate font-fraunces font-semibold ${titleClass}`} title={data.title}>
-        <a
-          href={data.songUrl ?? '#'}
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          className="cancel-drag rounded-sm ring-2 ring-transparent outline-hidden transition-all focus-visible:ring-2 focus-visible:ring-black/15 dark:focus-visible:ring-white/30"
-        >
-          {data.title ?? 'Failed to load'}
-        </a>
+        {data.songUrl ? (
+          <a
+            href={data.songUrl}
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+            className="cancel-drag rounded-sm ring-2 ring-transparent outline-hidden transition-all focus-visible:ring-2 focus-visible:ring-black/15 dark:focus-visible:ring-white/30"
+          >
+            {data.title ?? 'Failed to load'}
+          </a>
+        ) : (
+          <span>{data.title ?? 'Failed to load'}</span>
+        )}
       </h2>
 
       <p className={`truncate font-medium ${artistClass}`} title={data.artist}>

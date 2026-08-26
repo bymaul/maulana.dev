@@ -4,7 +4,6 @@ import { buildJsonLd, buildMetadata } from '@/lib/metadata';
 import { getAllPosts, getPostBySlug } from '@/lib/mdx';
 import { formatDate } from '@/lib/utils';
 import { notFound } from 'next/navigation';
-import Script from 'next/script';
 import { FaX } from 'react-icons/fa6';
 
 type Params = Promise<{ slug: string }>;
@@ -41,10 +40,9 @@ const PostPage = async ({ params }: { params: Params }) => {
 
   return (
     <>
-      <Script
-        id="json-ld"
+      <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
       <nav className="flex items-center justify-center pt-10">
         <CustomLink className="inline-flex hover:mb-6 hover:scale-125" href="/">
