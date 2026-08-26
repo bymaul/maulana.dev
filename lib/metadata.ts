@@ -26,9 +26,8 @@ export function buildMetadata({
       ...(publishedTime ? { publishedTime } : {}),
       url,
       authors: siteConfig.author,
-      images: siteConfig.ogImage,
     },
-    twitter: { title, description, images: siteConfig.ogImage },
+    twitter: { card: 'summary_large_image' },
     alternates: { canonical: url },
   };
 }
