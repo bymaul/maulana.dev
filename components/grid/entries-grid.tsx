@@ -61,12 +61,12 @@ const baseLayouts = {
 
 const baseItemIds = ['description', 'location', 'theme', 'contact'];
 
-const getBadgeText = (date?: string) => (date ? formatDate(date) : 'Article');
+const getBadgeText = (date?: string) => (date ? formatDate(date) : 'Post');
 
 export default function EntriesGrid({ view, posts, projects }: EntriesGridProps) {
-  const isArticles = view === 'articles';
-  const entries = isArticles ? posts : projects;
-  const hrefBase = isArticles ? '/posts' : '/projects';
+  const isPosts = view === 'posts';
+  const entries = isPosts ? posts : projects;
+  const hrefBase = isPosts ? '/posts' : '/projects';
 
   const baseItems = getGridItems()
     .filter((item) => baseItemIds.includes(item.i))
@@ -88,7 +88,7 @@ export default function EntriesGrid({ view, posts, projects }: EntriesGridProps)
     <div key={entry.slug} className="h-full">
       <EntryCard
         href={`${hrefBase}/${entry.slug}`}
-        badge={isArticles ? getBadgeText(entry.metadata.date) : 'Project'}
+        badge={isPosts ? getBadgeText(entry.metadata.date) : 'Project'}
         title={entry.metadata.title}
         description={entry.metadata.description}
       />

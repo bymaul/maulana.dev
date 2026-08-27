@@ -1,4 +1,4 @@
-import CustomLink from '@/components/custom-link';
+import ButtonLink from '@/components/button-link';
 import { CustomMDX } from '@/components/mdx';
 import { buildJsonLd, buildMetadata } from '@/lib/metadata';
 import { getAllPosts, getPostBySlug } from '@/lib/mdx';
@@ -45,10 +45,10 @@ const PostPage = async ({ params }: { params: Params }) => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
       <nav className="flex items-center justify-center pt-10">
-        <CustomLink className="inline-flex hover:mb-6 hover:scale-125" href="/">
+        <ButtonLink className="inline-flex hover:mb-6 hover:scale-125" href="/">
           <FaX />
           <div className="sr-only">Close</div>
-        </CustomLink>
+        </ButtonLink>
       </nav>
       <main className="mx-auto max-w-prose px-4 py-8">
         <article className="prose px-4 py-8 prose-gray dark:prose-invert">

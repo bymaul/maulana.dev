@@ -1,4 +1,4 @@
-import CustomLink from '@/components/custom-link';
+import ButtonLink from '@/components/button-link';
 import Card from '@/components/card';
 import Container from '@/components/container';
 import GridLayout from '@/components/grid/layout';
@@ -51,10 +51,10 @@ const ProjectPage = async ({ params }: { params: Params }) => {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
       <nav className="flex items-center justify-center pt-10">
-        <CustomLink className="inline-flex hover:mb-6 hover:scale-125" href="/">
+        <ButtonLink className="inline-flex hover:mb-6 hover:scale-125" href="/">
           <FaX />
           <div className="sr-only">Close</div>
-        </CustomLink>
+        </ButtonLink>
       </nav>
       <main>
         <Container as="article" className="py-8">
@@ -65,7 +65,7 @@ const ProjectPage = async ({ params }: { params: Params }) => {
               {links.length > 0 && (
                 <nav aria-label="Project links" className="flex flex-wrap items-center gap-3 pt-4">
                   {links.map((link) => (
-                    <CustomLink
+                    <ButtonLink
                       key={link.url}
                       href={link.url}
                       target="_blank"
@@ -74,7 +74,7 @@ const ProjectPage = async ({ params }: { params: Params }) => {
                     >
                       {link.name}
                       <FaArrowRight className="-rotate-45 transition-transform duration-300 group-hover:rotate-0" />
-                    </CustomLink>
+                    </ButtonLink>
                   ))}
                 </nav>
               )}

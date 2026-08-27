@@ -1,7 +1,7 @@
 import { ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-export const VIEW_IDS = ['home', 'articles', 'projects'] as const;
+export const VIEW_IDS = ['home', 'posts', 'projects'] as const;
 
 export type ViewId = (typeof VIEW_IDS)[number];
 

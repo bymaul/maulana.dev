@@ -1,5 +1,5 @@
 import Card from '@/components/card';
-import CustomLink from '@/components/custom-link';
+import ButtonLink from '@/components/button-link';
 import { getFeaturedProject } from '@/lib/mdx';
 import Image from 'next/image';
 import { FaArrowRight } from 'react-icons/fa6';
@@ -77,7 +77,7 @@ export default function ProjectCard() {
       </div>
 
       <div className="absolute bottom-3 left-3 z-20">
-        <CustomLink
+        <ButtonLink
           className="cancel-drag size-10 justify-end transition-all duration-300 ease-in-out group-hover:w-full"
           href={`/projects/${project.slug}`}
           aria-label={project.metadata.title}
@@ -88,7 +88,7 @@ export default function ProjectCard() {
           <span>
             <FaArrowRight className="-rotate-45 transition-transform duration-300 group-hover:rotate-0" />
           </span>
-        </CustomLink>
+        </ButtonLink>
       </div>
     </Card>
   );

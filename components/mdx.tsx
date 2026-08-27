@@ -27,9 +27,9 @@ function extractHeadingText(node: ReactNode): string {
   return '';
 }
 
-type CustomLinkProps = ComponentPropsWithoutRef<'a'>;
+type ProseLinkProps = ComponentPropsWithoutRef<'a'>;
 
-function CustomLink({ href, children, ...props }: Readonly<CustomLinkProps>) {
+function ProseLink({ href, children, ...props }: Readonly<ProseLinkProps>) {
   const className = 'text-blue-500 hover:text-blue-700';
 
   if (href?.startsWith('/')) {
@@ -112,7 +112,7 @@ function createHeadings() {
 
 const components = {
   img: RoundedImage,
-  a: CustomLink,
+  a: ProseLink,
 };
 
 export function CustomMDX({ ...props }: MDXRemoteProps) {

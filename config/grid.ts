@@ -1,4 +1,4 @@
-import ArticleCard from '@/components/grid/widgets/article-card';
+import PostCard from '@/components/grid/widgets/post-card';
 import ContactCard from '@/components/grid/widgets/contact-card';
 import DescriptionCard from '@/components/grid/widgets/description-card';
 import DynamicLocationCard from '@/components/grid/widgets/dynamic-location-card';
@@ -15,7 +15,7 @@ interface GridItem {
 }
 
 const featuredSlugs = () => ({
-  post: getFeaturedPost()?.slug ?? 'article',
+  post: getFeaturedPost()?.slug ?? 'post',
   project: getFeaturedProject()?.slug ?? 'project',
 });
 
@@ -27,7 +27,7 @@ export const getGridItems = (): GridItem[] => {
     { i: 'location', component: DynamicLocationCard },
     { i: projectSlug, component: ProjectCard },
     { i: 'now-playing', component: NowPlayingCard },
-    { i: postSlug, component: ArticleCard },
+    { i: postSlug, component: PostCard },
     { i: 'theme', component: ThemeToggle },
     { i: 'linkedin', component: LinkedInCard },
     { i: 'contact', component: ContactCard },

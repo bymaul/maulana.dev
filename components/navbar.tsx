@@ -7,7 +7,7 @@ import { cn, parseView, type ViewId } from '@/lib/utils';
 
 const navItems: { name: string; path: string; viewId: ViewId; match: string }[] = [
   { name: 'Home', path: '/', viewId: 'home', match: '/' },
-  { name: 'Articles', path: '/?view=articles', viewId: 'articles', match: '/posts' },
+  { name: 'Posts', path: '/?view=posts', viewId: 'posts', match: '/posts' },
   { name: 'Projects', path: '/?view=projects', viewId: 'projects', match: '/projects' },
 ];
 
