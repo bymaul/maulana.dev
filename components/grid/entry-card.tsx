@@ -1,5 +1,4 @@
 import Card from '@/components/card';
-import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
 interface EntryCardProps {
@@ -7,16 +6,9 @@ interface EntryCardProps {
   badge: string;
   title: string;
   description: string;
-  descriptionClassName?: string;
 }
 
-export default function EntryCard({
-  href,
-  badge,
-  title,
-  description,
-  descriptionClassName = 'max-lg:line-clamp-4',
-}: EntryCardProps) {
+export default function EntryCard({ href, badge, title, description }: EntryCardProps) {
   return (
     <Card className="group relative h-full">
       <div className="relative z-10 flex h-full flex-col justify-between p-5 md:p-8">
@@ -26,13 +18,7 @@ export default function EntryCard({
               {title}
             </Link>
           </h2>
-          <p
-            className={cn(
-              'pointer-events-none text-gray-600',
-              descriptionClassName,
-              'dark:text-dark-300',
-            )}
-          >
+          <p className="pointer-events-none line-clamp-4 text-gray-600 dark:text-dark-300">
             {description}
           </p>
         </div>

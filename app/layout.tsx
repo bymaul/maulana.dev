@@ -14,10 +14,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: {
-    default: siteConfig.title,
-    template: '%s',
-  },
+  title: siteConfig.title,
   description: siteConfig.description,
   icons: {
     icon: [{ url: '/icons/icon.svg', type: 'image/svg+xml' }],
@@ -44,15 +41,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
   },
   robots: {
-    index: true,
-    follow: true,
     googleBot: {
-      index: true,
-      follow: true,
       noimageindex: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
     },
   },
   alternates: {
@@ -63,7 +53,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -73,7 +63,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           'bg-gray-100 antialiased dark:bg-dark-950',
         )}
       >
-        <ThemeProvider attribute="class" enableSystem={true}>
+        <ThemeProvider attribute="class">
           <div className="relative z-10">
             <Navbar />
             {children}

@@ -22,7 +22,6 @@ export default function PostCard() {
       badge={formatDate(post.metadata.date)}
       title={post.metadata.title}
       description={post.metadata.description}
-      descriptionClassName="line-clamp-4"
     />
   );
 }
