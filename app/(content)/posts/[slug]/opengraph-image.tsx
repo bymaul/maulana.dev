@@ -1,24 +1,13 @@
-import OgCard from '@/components/og-card';
-import { getAllPosts, getPostBySlug } from '@/lib/mdx';
-import { ImageResponse } from 'next/og';
+import { getAllPosts } from '@/lib/mdx';
+import { makeOgImage, OG_SIZE } from '@/lib/og';
 
-type Params = Promise<{ slug: string }>;
+export const generateStaticParams = () => getAllPosts().map((post) => ({ slug: post.slug }));
 
-export const generateStaticParams = async () => getAllPosts().map((post) => ({ slug: post.slug }));
-
-export const size = { width: 1200, height: 630 };
+export const size = OG_SIZE;
 export const contentType = 'image/png';
 export const alt = 'Post cover image';
 
-export default async function Image({ params }: { params: Params }) {
+export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
-
-  return new ImageResponse(
-    <OgCard
-      title={post?.metadata.title ?? 'Post'}
-      description={post?.metadata.description ?? ''}
-    />,
-    size,
-  );
+  return makeOgImage('post', slug);
 }

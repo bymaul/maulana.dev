@@ -32,13 +32,19 @@ export function buildMetadata({
   };
 }
 
-export function buildJsonLd(
-  type: 'BlogPosting' | 'Article',
-  headline: string,
-  description: string,
-  path: string,
-  date?: string,
-) {
+export function buildJsonLd({
+  type,
+  headline,
+  description,
+  path,
+  date,
+}: {
+  type: 'BlogPosting' | 'Article';
+  headline: string;
+  description: string;
+  path: string;
+  date?: string;
+}): Record<string, unknown> {
   const url = `${siteConfig.url}${path}`;
 
   return {

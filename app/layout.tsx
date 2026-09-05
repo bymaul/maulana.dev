@@ -14,7 +14,10 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: siteConfig.title,
+  title: {
+    default: siteConfig.title,
+    template: '%s — Maulana',
+  },
   description: siteConfig.description,
   icons: {
     icon: [{ url: '/icons/icon.svg', type: 'image/svg+xml' }],

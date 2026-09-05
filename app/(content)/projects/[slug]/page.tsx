@@ -3,32 +3,31 @@ import Card from '@/components/card';
 import Container from '@/components/container';
 import GridLayout from '@/components/grid/layout';
 import { CustomMDX } from '@/components/mdx';
+import JsonLd from '@/components/json-ld';
 import { projectLayouts } from '@/config/grid';
 import { buildJsonLd, buildMetadata } from '@/lib/metadata';
 import { getAllProjects, getProjectBySlug } from '@/lib/mdx';
 import { notFound } from 'next/navigation';
-import { FaArrowRight, FaX } from 'react-icons/fa6';
+import { FaArrowRight } from 'react-icons/fa6';
 import Image from 'next/image';
 
-type Params = Promise<{ slug: string }>;
-
-export const generateStaticParams = async () =>
+export const generateStaticParams = () =>
   getAllProjects().map((project) => ({ slug: project.slug }));
 
-export const generateMetadata = async ({ params }: { params: Params }) => {
+export const generateMetadata = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
   if (!project) return;
 
   const { title, description } = project.metadata;
   return buildMetadata({
-    title: `${title} — Projects`,
+    title,
     description,
     path: `/projects/${project.slug}`,
   });
 };
 
-const ProjectPage = async ({ params }: { params: Params }) => {
+const ProjectPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
   const project = getProjectBySlug(slug);
 
@@ -37,25 +36,16 @@ const ProjectPage = async ({ params }: { params: Params }) => {
   const links = project.metadata.links;
   const images = project.metadata.images ?? [];
 
-  const jsonLd = buildJsonLd(
-    'Article',
-    project.metadata.title,
-    project.metadata.description,
-    `/projects/${project.slug}`,
-  );
+  const jsonLd = buildJsonLd({
+    type: 'Article',
+    headline: project.metadata.title,
+    description: project.metadata.description,
+    path: `/projects/${project.slug}`,
+  });
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
-      />
-      <nav className="flex items-center justify-center pt-10">
-        <ButtonLink className="inline-flex hover:mb-6 hover:scale-125" href="/">
-          <FaX />
-          <div className="sr-only">Close</div>
-        </ButtonLink>
-      </nav>
+      <JsonLd data={jsonLd} />
       <main>
         <Container as="article" className="py-8">
           <h1 className="font-fraunces text-3xl leading-relaxed">{project.metadata.title}</h1>

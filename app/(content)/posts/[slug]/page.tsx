@@ -1,16 +1,13 @@
-import ButtonLink from '@/components/button-link';
 import { CustomMDX } from '@/components/mdx';
+import JsonLd from '@/components/json-ld';
 import { buildJsonLd, buildMetadata } from '@/lib/metadata';
 import { getAllPosts, getPostBySlug } from '@/lib/mdx';
 import { formatDate } from '@/lib/utils';
 import { notFound } from 'next/navigation';
-import { FaX } from 'react-icons/fa6';
 
-type Params = Promise<{ slug: string }>;
+export const generateStaticParams = () => getAllPosts().map((post) => ({ slug: post.slug }));
 
-export const generateStaticParams = async () => getAllPosts().map((post) => ({ slug: post.slug }));
-
-export const generateMetadata = async ({ params }: { params: Params }) => {
+export const generateMetadata = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return;
@@ -24,32 +21,23 @@ export const generateMetadata = async ({ params }: { params: Params }) => {
   });
 };
 
-const PostPage = async ({ params }: { params: Params }) => {
+const PostPage = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
   const post = getPostBySlug(slug);
 
   if (!post) notFound();
 
-  const jsonLd = buildJsonLd(
-    'BlogPosting',
-    post.metadata.title,
-    post.metadata.description,
-    `/posts/${post.slug}`,
-    post.metadata.date,
-  );
+  const jsonLd = buildJsonLd({
+    type: 'BlogPosting',
+    headline: post.metadata.title,
+    description: post.metadata.description,
+    path: `/posts/${post.slug}`,
+    date: post.metadata.date,
+  });
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
-      />
-      <nav className="flex items-center justify-center pt-10">
-        <ButtonLink className="inline-flex hover:mb-6 hover:scale-125" href="/">
-          <FaX />
-          <div className="sr-only">Close</div>
-        </ButtonLink>
-      </nav>
+      <JsonLd data={jsonLd} />
       <main className="mx-auto max-w-prose px-4 py-8">
         <article className="prose px-4 py-8 prose-gray dark:prose-invert">
           <header className="not-prose text-center">
