@@ -3,10 +3,14 @@ import { siteConfig } from '@/config/site';
 import { dmSans, fraunces } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { ThemeProvider } from 'next-themes';
 
 import './globals.css';
+
+export const viewport: Viewport = {
+  themeColor: '#0d0d0d',
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -15,6 +19,11 @@ export const metadata: Metadata = {
     template: '%s',
   },
   description: siteConfig.description,
+  icons: {
+    icon: [{ url: '/icons/icon.svg', type: 'image/svg+xml' }],
+    shortcut: '/favicon.ico',
+    apple: '/apple-icon.png',
+  },
   openGraph: {
     title: siteConfig.title,
     description: siteConfig.description,
