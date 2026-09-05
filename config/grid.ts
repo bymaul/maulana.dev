@@ -6,6 +6,7 @@ import LinkedInCard from '@/components/grid/widgets/linkedin-card';
 import NowPlayingCard from '@/components/grid/widgets/now-playing-card';
 import ProjectCard from '@/components/grid/widgets/project-card';
 import ThemeToggle from '@/components/grid/widgets/theme-toggle';
+import { getFeaturedPost, getFeaturedProject } from '@/lib/mdx';
 import { LayoutItem } from 'react-grid-layout';
 
 interface GridItem {
@@ -13,13 +14,20 @@ interface GridItem {
   component: React.ComponentType;
 }
 
+const featuredSlugs = () => ({
+  post: getFeaturedPost()?.slug ?? 'post',
+  project: getFeaturedProject()?.slug ?? 'project',
+});
+
 export const getGridItems = (): GridItem[] => {
+  const { post: postSlug, project: projectSlug } = featuredSlugs();
+
   return [
     { i: 'description', component: DescriptionCard },
     { i: 'location', component: DynamicLocationCard },
-    { i: 'project', component: ProjectCard },
+    { i: projectSlug, component: ProjectCard },
     { i: 'now-playing', component: NowPlayingCard },
-    { i: 'post', component: PostCard },
+    { i: postSlug, component: PostCard },
     { i: 'theme', component: ThemeToggle },
     { i: 'linkedin', component: LinkedInCard },
     { i: 'contact', component: ContactCard },
@@ -27,13 +35,15 @@ export const getGridItems = (): GridItem[] => {
 };
 
 export const getLayouts = (): Record<'lg' | 'md' | 'sm', LayoutItem[]> => {
+  const { post: postSlug, project: projectSlug } = featuredSlugs();
+
   return {
     lg: [
       { i: 'description', x: 0, y: 0, w: 2, h: 1 },
       { i: 'location', x: 2, y: 0, w: 1, h: 1 },
-      { i: 'project', x: 3, y: 0, w: 1, h: 2 },
+      { i: projectSlug, x: 3, y: 0, w: 1, h: 2 },
       { i: 'now-playing', x: 0, y: 1, w: 1, h: 1 },
-      { i: 'post', x: 1, y: 1, w: 2, h: 1 },
+      { i: postSlug, x: 1, y: 1, w: 2, h: 1 },
       { i: 'theme', x: 0, y: 2, w: 1, h: 1 },
       { i: 'linkedin', x: 1, y: 2, w: 1, h: 1 },
       { i: 'contact', x: 2, y: 2, w: 2, h: 1 },
@@ -42,20 +52,20 @@ export const getLayouts = (): Record<'lg' | 'md' | 'sm', LayoutItem[]> => {
       { i: 'description', x: 0, y: 0, w: 2, h: 2 },
       { i: 'location', x: 2, y: 0, w: 2, h: 1 },
       { i: 'linkedin', x: 2, y: 1, w: 1, h: 1 },
-      { i: 'project', x: 3, y: 1, w: 1, h: 2 },
+      { i: projectSlug, x: 3, y: 1, w: 1, h: 2 },
       { i: 'now-playing', x: 0, y: 2, w: 2, h: 1 },
       { i: 'theme', x: 2, y: 2, w: 1, h: 1 },
-      { i: 'post', x: 0, y: 3, w: 2, h: 2 },
+      { i: postSlug, x: 0, y: 3, w: 2, h: 2 },
       { i: 'contact', x: 2, y: 3, w: 2, h: 2 },
     ],
     sm: [
       { i: 'description', x: 0, y: 0, w: 2, h: 2 },
       { i: 'location', x: 0, y: 2, w: 2, h: 1 },
       { i: 'linkedin', x: 0, y: 3, w: 1, h: 1 },
-      { i: 'project', x: 1, y: 3, w: 1, h: 2 },
+      { i: projectSlug, x: 1, y: 3, w: 1, h: 2 },
       { i: 'theme', x: 0, y: 4, w: 1, h: 1 },
       { i: 'now-playing', x: 0, y: 5, w: 2, h: 1 },
-      { i: 'post', x: 0, y: 6, w: 2, h: 2 },
+      { i: postSlug, x: 0, y: 6, w: 2, h: 2 },
       { i: 'contact', x: 0, y: 8, w: 2, h: 2 },
     ],
   };
