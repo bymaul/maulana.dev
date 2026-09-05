@@ -1,4 +1,4 @@
-import { siteConfig } from '@/config/site';
+import { toAbsoluteUrl } from '@/lib/metadata';
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       disallow: '/api/',
     },
-    sitemap: `${siteConfig.url}/sitemap.xml`,
+    sitemap: toAbsoluteUrl('/sitemap.xml'),
   };
 }

@@ -1,5 +1,6 @@
 import { siteConfig } from '@/config/site';
 import { getAllPosts } from '@/lib/mdx';
+import { toAbsoluteUrl } from '@/lib/metadata';
 
 export const dynamic = 'force-static';
 
@@ -11,19 +12,20 @@ const escapeXml = (value: string): string =>
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&apos;');
 
-export async function GET() {
+export function GET() {
   const posts = getAllPosts();
 
   const items = posts
-    .map(
-      (post) => `    <item>
+    .map((post) => {
+      const url = escapeXml(toAbsoluteUrl(`/posts/${post.slug}`));
+      return `    <item>
       <title>${escapeXml(post.metadata.title)}</title>
-      <link>${siteConfig.url}/posts/${post.slug}</link>
-      <guid isPermaLink="true">${siteConfig.url}/posts/${post.slug}</guid>
+      <link>${url}</link>
+      <guid isPermaLink="true">${url}</guid>
       <description>${escapeXml(post.metadata.description)}</description>
       <pubDate>${new Date(post.metadata.date).toUTCString()}</pubDate>
-    </item>`,
-    )
+    </item>`;
+    })
     .join('\n');
 
   const feed = `<?xml version="1.0" encoding="UTF-8"?>
@@ -33,7 +35,7 @@ export async function GET() {
     <link>${siteConfig.url}</link>
     <description>${escapeXml(siteConfig.description)}</description>
     <language>en-us</language>
-    <atom:link href="${siteConfig.url}/feed.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="${toAbsoluteUrl('/feed.xml')}" rel="self" type="application/rss+xml"/>
 ${items}
   </channel>
 </rss>`;

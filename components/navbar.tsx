@@ -2,16 +2,16 @@
 
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, useLayoutEffect, useRef, useState, Suspense } from 'react';
+import { useLayoutEffect, useRef, useState, Suspense } from 'react';
 import { cn, parseView, type ViewId } from '@/lib/utils';
 
-const navItems: { name: string; path: string; viewId: ViewId; match: string }[] = [
-  { name: 'Home', path: '/', viewId: 'home', match: '/' },
-  { name: 'Posts', path: '/?view=posts', viewId: 'posts', match: '/posts' },
-  { name: 'Projects', path: '/?view=projects', viewId: 'projects', match: '/projects' },
+const navItems: { name: string; path: string; viewId: ViewId }[] = [
+  { name: 'Home', path: '/', viewId: 'home' },
+  { name: 'Posts', path: '/?view=posts', viewId: 'posts' },
+  { name: 'Projects', path: '/?view=projects', viewId: 'projects' },
 ];
 
-const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+const matchPath = (viewId: ViewId): string => (viewId === 'home' ? '/' : `/${viewId}`);
 
 function NavContent() {
   const pathname = usePathname();
@@ -20,7 +20,7 @@ function NavContent() {
   const navRef = useRef<HTMLDivElement>(null);
   const [indicator, setIndicator] = useState<{ left: number; width: number } | null>(null);
 
-  useIsomorphicLayoutEffect(() => {
+  useLayoutEffect(() => {
     const update = () => {
       if (!navRef.current) return;
       const el = navRef.current.querySelector<HTMLElement>('[data-active="true"]');
@@ -50,8 +50,9 @@ function NavContent() {
       )}
 
       {navItems.map((item) => {
+        const match = matchPath(item.viewId);
         const isActive =
-          (item.match !== '/' && pathname.startsWith(item.match)) ||
+          (match !== '/' && pathname.startsWith(match)) ||
           (pathname === '/' && view === item.viewId);
 
         return (

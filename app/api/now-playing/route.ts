@@ -18,6 +18,8 @@ const fetchSpotify = (url: string, token: string) =>
     cache: 'no-store',
   });
 
+const toJson = async (res: Response) => (res.ok && res.status !== 204 ? res.json() : null);
+
 const getAccessToken = async (): Promise<string | null> => {
   if (!id || !secret || !refresh) return null;
   if (cachedToken && Date.now() < cachedToken.expiresAt) return cachedToken.value;
@@ -64,50 +66,32 @@ export async function GET() {
   }
 
   try {
-    const currentlyPlaying = await fetchSpotify(
-      'https://api.spotify.com/v1/me/player/currently-playing',
-      token,
+    const current = await toJson(
+      await fetchSpotify('https://api.spotify.com/v1/me/player/currently-playing', token),
     );
+    const track = current?.item;
 
-    if (currentlyPlaying.ok && currentlyPlaying.status !== 204) {
-      const data = await currentlyPlaying.json();
-      if (data?.item) {
-        return NextResponse.json(
-          {
-            isPlaying: data.is_playing,
-            title: data.item.name,
-            artist: data.item.artists.map((a: { name: string }) => a.name).join(', '),
-            albumImageUrl: data.item.album.images[0]?.url || '',
-            songUrl: data.item.external_urls.spotify,
-          },
-          { headers: { 'Cache-Control': CACHE_CONTROL } },
+    const recent = track
+      ? null
+      : await toJson(
+          await fetchSpotify('https://api.spotify.com/v1/me/player/recently-played?limit=1', token),
         );
-      }
+    const played = track ?? recent?.items?.[0]?.track;
+
+    if (!played) {
+      return notPlaying();
     }
 
-    const recentlyPlayed = await fetchSpotify(
-      'https://api.spotify.com/v1/me/player/recently-played?limit=1',
-      token,
+    return NextResponse.json(
+      {
+        isPlaying: track ? (current.is_playing ?? false) : false,
+        title: played.name,
+        artist: played.artists.map((a: { name: string }) => a.name).join(', '),
+        albumImageUrl: played.album.images[0]?.url || '',
+        songUrl: played.external_urls.spotify,
+      },
+      { headers: { 'Cache-Control': CACHE_CONTROL } },
     );
-
-    if (recentlyPlayed.ok && recentlyPlayed.status !== 204) {
-      const data = await recentlyPlayed.json();
-      const track = data.items?.[0]?.track;
-      if (track) {
-        return NextResponse.json(
-          {
-            isPlaying: false,
-            title: track.name,
-            artist: track.artists.map((a: { name: string }) => a.name).join(', '),
-            albumImageUrl: track.album.images[0]?.url || '',
-            songUrl: track.external_urls.spotify,
-          },
-          { headers: { 'Cache-Control': CACHE_CONTROL } },
-        );
-      }
-    }
-
-    return notPlaying();
   } catch {
     return NextResponse.json(
       { isPlaying: false },

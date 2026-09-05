@@ -1,19 +1,19 @@
-import { siteConfig } from '@/config/site';
 import { getAllPosts, getAllProjects } from '@/lib/mdx';
+import { toAbsoluteUrl } from '@/lib/metadata';
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const routes = [{ url: siteConfig.url, lastModified: new Date() }];
+  const routes = [{ url: toAbsoluteUrl(''), lastModified: new Date() }];
 
   const posts = getAllPosts().map((post) => ({
-    url: `${siteConfig.url}/posts/${post.slug}`,
+    url: toAbsoluteUrl(`/posts/${post.slug}`),
     lastModified: post.metadata.date,
   }));
 
   const projects = getAllProjects().map((project) => ({
-    url: `${siteConfig.url}/projects/${project.slug}`,
+    url: toAbsoluteUrl(`/projects/${project.slug}`),
     lastModified: project.metadata.date || new Date(),
   }));
 
-  return [...routes, ...posts, ...projects, { url: `${siteConfig.url}/feed.xml` }];
+  return [...routes, ...posts, ...projects, { url: toAbsoluteUrl('/feed.xml') }];
 }

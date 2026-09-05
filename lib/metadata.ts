@@ -8,13 +8,17 @@ interface BuildMetadataProps {
   publishedTime?: string;
 }
 
+export function toAbsoluteUrl(path: string): string {
+  return `${siteConfig.url}${path}`;
+}
+
 export function buildMetadata({
   title,
   description,
   path,
   publishedTime,
 }: BuildMetadataProps): Metadata {
-  const url = `${siteConfig.url}${path}`;
+  const url = toAbsoluteUrl(path);
 
   return {
     title,
@@ -45,7 +49,7 @@ export function buildJsonLd({
   path: string;
   date?: string;
 }): Record<string, unknown> {
-  const url = `${siteConfig.url}${path}`;
+  const url = toAbsoluteUrl(path);
 
   return {
     '@context': 'https://schema.org',
