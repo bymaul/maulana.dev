@@ -19,6 +19,10 @@ const INITIAL_VIEW_STATE = {
 
 const mapboxToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN;
 
+export function MapSkeleton() {
+  return <div className="size-full animate-pulse bg-gray-100 dark:bg-dark-800" />;
+}
+
 const BASEMAP_CONFIG = {
   showPedestrianRoads: false,
   showPointOfInterestLabels: false,
@@ -136,7 +140,9 @@ export default function LocationCard() {
             </Button>
           </div>
         ) : (
-          <div className="absolute inset-0 size-full animate-pulse bg-gray-100 dark:bg-dark-800" />
+          <div className="absolute inset-0">
+            <MapSkeleton />
+          </div>
         )}
       </Map>
     </Card>

@@ -7,20 +7,17 @@ type CardProps = React.ComponentPropsWithRef<'div'> & {
 
 export default function Card({ className, children, ref, ...props }: Readonly<CardProps>) {
   return (
-    <div className="size-full rounded-3xl shadow-xs transition-shadow duration-300 hover:shadow-lg">
-      <div
-        ref={ref}
-        {...props}
-        className={cn(
-          'size-full overflow-hidden rounded-3xl',
-          'bg-white dark:bg-dark-900',
-          'select-none',
-          'dark:ring-1 dark:ring-dark-800',
-          className,
-        )}
-      >
-        {children}
-      </div>
+    <div
+      ref={ref}
+      {...props}
+      className={cn(
+        'size-full overflow-hidden rounded-3xl bg-white select-none',
+        'shadow-xs transition-shadow duration-300 hover:shadow-lg',
+        'dark:bg-dark-900 dark:ring-1 dark:ring-dark-800',
+        className,
+      )}
+    >
+      {children}
     </div>
   );
 }
