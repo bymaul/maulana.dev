@@ -1,6 +1,7 @@
 import ButtonLink from '@/components/button-link';
 import Card from '@/components/card';
 import Container from '@/components/container';
+import GridItem from '@/components/grid/grid-item';
 import GridLayout from '@/components/grid/layout';
 import { CustomMDX } from '@/components/mdx';
 import JsonLd from '@/components/json-ld';
@@ -78,7 +79,7 @@ const ProjectPage = async ({ params }: { params: Promise<{ slug: string }> }) =>
           <section aria-label="Project gallery" className="-mt-8 pb-16">
             <GridLayout layouts={projectLayouts}>
               {images.map((url, index) => (
-                <div key={`image-${index}`} id={`image-${index}`}>
+                <GridItem key={`image-${index}`} id={`image-${index}`}>
                   <Card className="relative">
                     <Image
                       src={url}
@@ -89,7 +90,7 @@ const ProjectPage = async ({ params }: { params: Promise<{ slug: string }> }) =>
                       draggable={false}
                     />
                   </Card>
-                </div>
+                </GridItem>
               ))}
             </GridLayout>
           </section>

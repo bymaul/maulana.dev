@@ -1,20 +1,16 @@
+import GridItem from '@/components/grid/grid-item';
 import GridLayout from '@/components/grid/layout';
 import EntryCard from '@/components/grid/entry-card';
 import { getGridItems } from '@/config/grid';
-import type { BaseMetadata } from '@/lib/mdx';
+import type { MDXData, PostMetadata, ProjectMetadata } from '@/lib/mdx';
 import type { ViewId } from '@/lib/utils';
 import { formatDate } from '@/lib/utils';
 import type { LayoutItem } from 'react-grid-layout';
 
-export type ContentData = {
-  slug: string;
-  metadata: BaseMetadata;
-};
-
 interface EntriesGridProps {
   view: Exclude<ViewId, 'home'>;
-  posts: ContentData[];
-  projects: ContentData[];
+  posts: Pick<MDXData<PostMetadata>, 'slug' | 'metadata'>[];
+  projects: Pick<MDXData<ProjectMetadata>, 'slug' | 'metadata'>[];
 }
 
 type Bp = 'lg' | 'md' | 'sm';
@@ -71,9 +67,9 @@ export default function EntriesGrid({ view, posts, projects }: EntriesGridProps)
   const baseItems = getGridItems()
     .filter((item) => baseItemIds.includes(item.i))
     .map(({ i, component: Widget }) => (
-      <div key={i} id={i}>
+      <GridItem key={i} id={i}>
         <Widget />
-      </div>
+      </GridItem>
     ));
 
   const ids = [...entries.map((e) => e.slug), 'contact'];
@@ -85,14 +81,14 @@ export default function EntriesGrid({ view, posts, projects }: EntriesGridProps)
   };
 
   const newItems = entries.map((entry) => (
-    <div key={entry.slug} className="h-full">
+    <GridItem key={entry.slug} className="h-full">
       <EntryCard
         href={`${hrefBase}/${entry.slug}`}
         badge={isPosts ? getBadgeText(entry.metadata.date) : 'Project'}
         title={entry.metadata.title}
         description={entry.metadata.description}
       />
-    </div>
+    </GridItem>
   ));
 
   return <GridLayout layouts={mergedLayouts}>{[...baseItems, ...newItems]}</GridLayout>;
