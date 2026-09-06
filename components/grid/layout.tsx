@@ -5,11 +5,7 @@ import { cn } from '@/lib/utils';
 import { Responsive, useContainerWidth, type ResponsiveGridLayoutProps } from 'react-grid-layout';
 import { absoluteStrategy } from 'react-grid-layout/core';
 
-type GridLayoutProps = Readonly<
-  Pick<ResponsiveGridLayoutProps, 'layouts' | 'children'> & {
-    className?: string;
-  }
->;
+type GridLayoutProps = Readonly<Pick<ResponsiveGridLayoutProps, 'layouts' | 'children'>>;
 
 type Breakpoint = 'lg' | 'md' | 'sm' | 'xs' | 'xxs';
 
@@ -37,7 +33,7 @@ const getBreakpoint = (width: number): Breakpoint => {
   return breakpointKeys.find((key) => width > breakpoints[key]) ?? 'xxs';
 };
 
-export default function GridLayout({ layouts, className, children }: GridLayoutProps) {
+export default function GridLayout({ layouts, children }: GridLayoutProps) {
   const { width, containerRef, mounted } = useContainerWidth({
     measureBeforeMount: true,
   });
@@ -51,7 +47,6 @@ export default function GridLayout({ layouts, className, children }: GridLayoutP
         CONTAINER_WIDTH_CLASSES,
         mounted ? 'opacity-100' : 'opacity-0',
         'transition-opacity duration-700',
-        className,
       )}
     >
       {mounted && (

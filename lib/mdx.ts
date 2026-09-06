@@ -22,19 +22,22 @@ export interface ProjectMetadata extends BaseMetadata {
   };
 }
 
-type MDXData<T extends BaseMetadata> = {
+export type MDXData<T extends BaseMetadata> = {
   metadata: T;
   slug: string;
   content: string;
 };
 
-const isValidMetadata = (metadata: Partial<BaseMetadata>): boolean =>
-  typeof metadata.title === 'string' &&
-  metadata.title.trim().length > 0 &&
-  typeof metadata.description === 'string' &&
-  metadata.description.trim().length > 0;
+const POSTS_DIR = path.join(process.cwd(), 'content/posts');
+const PROJECTS_DIR = path.join(process.cwd(), 'content/projects');
 
-const getMDXData = cache(<T extends BaseMetadata>(dir: string): MDXData<T>[] => {
+const hasText = (value: unknown): value is string =>
+  typeof value === 'string' && value.trim().length > 0;
+
+const isValidMetadata = (metadata: { title?: unknown; description?: unknown }): boolean =>
+  hasText(metadata.title) && hasText(metadata.description);
+
+const readMDXDir = cache(<T extends BaseMetadata>(dir: string): MDXData<T>[] => {
   if (!fs.existsSync(dir)) {
     return [];
   }
@@ -64,7 +67,7 @@ const getMDXData = cache(<T extends BaseMetadata>(dir: string): MDXData<T>[] => 
     });
 });
 
-const byDateDesc = <T extends BaseMetadata>(a: MDXData<T>, b: MDXData<T>): number => {
+const byDateDesc = (a: MDXData<BaseMetadata>, b: MDXData<BaseMetadata>): number => {
   const aTime = a.metadata.date ? new Date(a.metadata.date).getTime() : 0;
   const bTime = b.metadata.date ? new Date(b.metadata.date).getTime() : 0;
 
@@ -72,38 +75,38 @@ const byDateDesc = <T extends BaseMetadata>(a: MDXData<T>, b: MDXData<T>): numbe
   return a.metadata.title.localeCompare(b.metadata.title);
 };
 
-export const getAllPosts = (): MDXData<PostMetadata>[] => {
-  const posts = getMDXData<PostMetadata>(path.join(process.cwd(), 'content/posts'));
+const sorted = <T extends BaseMetadata>(items: MDXData<T>[]): MDXData<T>[] =>
+  [...items].sort(byDateDesc);
 
-  return [...posts].sort(byDateDesc);
-};
+const findBySlug = <T extends BaseMetadata>(
+  items: MDXData<T>[],
+  slug: string,
+): MDXData<T> | undefined => items.find((item) => item.slug === slug);
+
+const findFeatured = <T extends BaseMetadata>(items: MDXData<T>[]): MDXData<T> | null =>
+  items.find((item) => item.metadata.featured) ?? null;
+
+export const getAllPosts = cache((): MDXData<PostMetadata>[] => {
+  return sorted(readMDXDir<PostMetadata>(POSTS_DIR));
+});
+
+export const getAllProjects = cache((): MDXData<ProjectMetadata>[] => {
+  return sorted(readMDXDir<ProjectMetadata>(PROJECTS_DIR)).map((project) => ({
+    ...project,
+    metadata: {
+      ...project.metadata,
+      links: project.metadata.links ?? [],
+    },
+  }));
+});
 
 export const getPostBySlug = (slug: string): MDXData<PostMetadata> | undefined =>
-  getAllPosts().find((post) => post.slug === slug);
-
-export const getFeaturedPost = (): MDXData<PostMetadata> | null => {
-  const posts = getAllPosts();
-  return posts.find((post) => post.metadata.featured) || null;
-};
-
-export const getFeaturedProject = (): MDXData<ProjectMetadata> | null => {
-  const projects = getAllProjects();
-  return projects.find((project) => project.metadata.featured) || null;
-};
-
-export const getAllProjects = (): MDXData<ProjectMetadata>[] => {
-  const projects = getMDXData<ProjectMetadata>(path.join(process.cwd(), 'content/projects'));
-
-  return projects
-    .map((project) => ({
-      ...project,
-      metadata: {
-        ...project.metadata,
-        links: project.metadata.links ?? [],
-      },
-    }))
-    .sort(byDateDesc);
-};
+  findBySlug(getAllPosts(), slug);
 
 export const getProjectBySlug = (slug: string): MDXData<ProjectMetadata> | undefined =>
-  getAllProjects().find((project) => project.slug === slug);
+  findBySlug(getAllProjects(), slug);
+
+export const getFeaturedPost = (): MDXData<PostMetadata> | null => findFeatured(getAllPosts());
+
+export const getFeaturedProject = (): MDXData<ProjectMetadata> | null =>
+  findFeatured(getAllProjects());

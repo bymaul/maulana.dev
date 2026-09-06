@@ -7,25 +7,32 @@ interface Social {
   icon: IconType;
 }
 
+export const socialUrls = {
+  github: 'https://github.com/bymaul/',
+  instagram: 'https://instagram.com/maulaanaahmad',
+  linkedin: 'https://linkedin.com/in/maulana-ahmad',
+  youtube: 'https://youtube.com/@maulx',
+} as const;
+
 export const socials: Social[] = [
   {
-    name: 'Github',
-    url: 'https://github.com/bymaul/',
+    name: 'GitHub',
+    url: socialUrls.github,
     icon: FaGithub,
   },
   {
     name: 'Instagram',
-    url: 'https://instagram.com/maulaanaahmad',
+    url: socialUrls.instagram,
     icon: FaInstagram,
   },
   {
     name: 'LinkedIn',
-    url: 'https://linkedin.com/in/maulana-ahmad',
+    url: socialUrls.linkedin,
     icon: FaLinkedin,
   },
   {
     name: 'YouTube',
-    url: 'https://youtube.com/@maulx',
+    url: socialUrls.youtube,
     icon: FaYoutube,
   },
 ];

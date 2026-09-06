@@ -3,25 +3,21 @@ import EntriesGrid from '@/components/grid/entries-grid';
 import HomeGrid from '@/components/grid/home-grid';
 import { siteConfig } from '@/config/site';
 import { getAllPosts, getAllProjects } from '@/lib/mdx';
+import type { BaseMetadata, MDXData } from '@/lib/mdx';
 import { parseView } from '@/lib/utils';
 
 type Props = {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
+const toEntry = <T extends BaseMetadata>({ slug, metadata }: MDXData<T>) => ({ slug, metadata });
+
 export default async function Main({ searchParams }: Props) {
   const resolvedParams = await searchParams;
   const view = parseView(resolvedParams.view);
 
-  const posts = getAllPosts().map((post) => ({
-    slug: post.slug,
-    metadata: post.metadata,
-  }));
-
-  const projects = getAllProjects().map((project) => ({
-    slug: project.slug,
-    metadata: project.metadata,
-  }));
+  const posts = view === 'posts' ? getAllPosts().map(toEntry) : [];
+  const projects = view === 'projects' ? getAllProjects().map(toEntry) : [];
 
   return (
     <>

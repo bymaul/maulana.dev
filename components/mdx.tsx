@@ -40,16 +40,15 @@ function ProseLink({ href, children, ...props }: Readonly<ProseLinkProps>) {
     );
   }
 
-  if (href?.startsWith('#')) {
-    return (
-      <a href={href} className={className} {...props}>
-        {children}
-      </a>
-    );
-  }
+  const external = href != null && !href.startsWith('#');
 
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={className} {...props}>
+    <a
+      href={href}
+      className={className}
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      {...props}
+    >
       {children}
     </a>
   );

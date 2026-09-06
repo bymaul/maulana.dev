@@ -71,21 +71,17 @@ export const getLayouts = (): Record<'lg' | 'md' | 'sm', LayoutItem[]> => {
   };
 };
 
+const projectGalleryLayouts: LayoutItem[] = [
+  { i: 'image-0', x: 0, y: 0, w: 2, h: 1 },
+  { i: 'image-1', x: 2, y: 0, w: 1, h: 1 },
+  { i: 'image-2', x: 3, y: 0, w: 1, h: 2 },
+  { i: 'image-3', x: 0, y: 1, w: 1, h: 1 },
+  { i: 'image-4', x: 1, y: 1, w: 2, h: 1 },
+];
+
 export const projectLayouts: Record<'lg' | 'md' | 'sm', LayoutItem[]> = {
-  lg: [
-    { i: 'image-0', x: 0, y: 0, w: 2, h: 1 },
-    { i: 'image-1', x: 2, y: 0, w: 1, h: 1 },
-    { i: 'image-2', x: 3, y: 0, w: 1, h: 2 },
-    { i: 'image-3', x: 0, y: 1, w: 1, h: 1 },
-    { i: 'image-4', x: 1, y: 1, w: 2, h: 1 },
-  ],
-  md: [
-    { i: 'image-0', x: 0, y: 0, w: 2, h: 1 },
-    { i: 'image-1', x: 2, y: 0, w: 1, h: 1 },
-    { i: 'image-2', x: 3, y: 0, w: 1, h: 2 },
-    { i: 'image-3', x: 0, y: 1, w: 1, h: 1 },
-    { i: 'image-4', x: 1, y: 1, w: 2, h: 1 },
-  ],
+  lg: projectGalleryLayouts,
+  md: projectGalleryLayouts,
   sm: [
     { i: 'image-0', x: 0, y: 0, w: 2, h: 1 },
     { i: 'image-1', x: 0, y: 1, w: 1, h: 1 },

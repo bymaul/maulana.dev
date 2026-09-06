@@ -78,7 +78,7 @@ export default function ProjectCard() {
 
       <div className="absolute bottom-3 left-3 z-20">
         <ButtonLink
-          className="cancel-drag size-10 justify-end transition-all duration-300 ease-in-out group-hover:w-full"
+          className="size-10 justify-end transition-all duration-300 ease-in-out group-hover:w-full"
           href={`/projects/${project.slug}`}
           aria-label={project.metadata.title}
         >

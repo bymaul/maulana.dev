@@ -1,7 +1,6 @@
-import ButtonLink from '@/components/button-link';
+import { ArrowButtonLink } from '@/components/button-link';
 import Card from '@/components/card';
 import { siteConfig, socials } from '@/config/site';
-import { FaArrowRight } from 'react-icons/fa6';
 
 export default function ContactCard() {
   return (
@@ -14,10 +13,9 @@ export default function ContactCard() {
         just fancy saying hey, then get in touch.
       </p>
       <div className="inline-flex flex-col items-center gap-4 lg:flex-row">
-        <ButtonLink className="cancel-drag group px-4 py-2" href={`mailto:${siteConfig.email}`}>
-          <FaArrowRight className="-rotate-45 transition-transform duration-300 group-hover:rotate-0" />
+        <ArrowButtonLink className="px-4 py-2" href={`mailto:${siteConfig.email}`}>
           Contact Me
-        </ButtonLink>
+        </ArrowButtonLink>
         <div className="inline-flex gap-4">
           {socials.map((social) => (
             <a
@@ -28,7 +26,7 @@ export default function ContactCard() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {<social.icon size="1rem" />}
+              <social.icon size="1rem" />
             </a>
           ))}
         </div>

@@ -3,18 +3,27 @@ import { siteConfig } from '@/config/site';
 import { dmSans, fraunces } from '@/lib/fonts';
 import { cn } from '@/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { ThemeProvider } from 'next-themes';
 
 import './globals.css';
+
+export const viewport: Viewport = {
+  themeColor: '#0d0d0d',
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
     default: siteConfig.title,
-    template: '%s',
+    template: '%s — Maulana',
   },
   description: siteConfig.description,
+  icons: {
+    icon: [{ url: '/icons/icon.svg', type: 'image/svg+xml' }],
+    shortcut: '/favicon.ico',
+    apple: '/apple-icon.png',
+  },
   openGraph: {
     title: siteConfig.title,
     description: siteConfig.description,
@@ -35,15 +44,8 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
   },
   robots: {
-    index: true,
-    follow: true,
     googleBot: {
-      index: true,
-      follow: true,
       noimageindex: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
     },
   },
   alternates: {
@@ -54,7 +56,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
@@ -64,7 +66,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           'bg-gray-100 antialiased dark:bg-dark-950',
         )}
       >
-        <ThemeProvider attribute="class" enableSystem={true}>
+        <ThemeProvider attribute="class">
           <div className="relative z-10">
             <Navbar />
             {children}
