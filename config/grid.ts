@@ -1,9 +1,9 @@
-import PostCard from '@/components/grid/widgets/post-card';
 import ContactCard from '@/components/grid/widgets/contact-card';
 import DescriptionCard from '@/components/grid/widgets/description-card';
 import DynamicLocationCard from '@/components/grid/widgets/dynamic-location-card';
 import LinkedInCard from '@/components/grid/widgets/linkedin-card';
 import NowPlayingCard from '@/components/grid/widgets/now-playing-card';
+import PostCard from '@/components/grid/widgets/post-card';
 import ProjectCard from '@/components/grid/widgets/project-card';
 import ThemeToggle from '@/components/grid/widgets/theme-toggle';
 import { getFeaturedPost, getFeaturedProject } from '@/lib/mdx';

@@ -1,5 +1,5 @@
-import Card from '@/components/card';
 import ButtonLink from '@/components/button-link';
+import Card from '@/components/card';
 import { getFeaturedProject } from '@/lib/mdx';
 import Image from 'next/image';
 import { FaArrowRight } from 'react-icons/fa6';

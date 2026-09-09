@@ -1,9 +1,9 @@
 'use client';
 
+import { cn, parseView, type ViewId } from '@/lib/utils';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useLayoutEffect, useRef, useState, Suspense } from 'react';
-import { cn, parseView, type ViewId } from '@/lib/utils';
+import { Suspense, useLayoutEffect, useRef, useState } from 'react';
 
 const navItems: { name: string; path: string; viewId: ViewId }[] = [
   { name: 'Home', path: '/', viewId: 'home' },

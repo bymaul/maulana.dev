@@ -1,5 +1,5 @@
-import { FaGithub, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa6';
 import type { IconType } from 'react-icons';
+import { FaGithub, FaInstagram, FaLinkedin, FaYoutube } from 'react-icons/fa6';
 
 interface Social {
   name: string;

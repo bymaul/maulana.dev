@@ -2,8 +2,8 @@ import Container from '@/components/container';
 import EntriesGrid from '@/components/grid/entries-grid';
 import HomeGrid from '@/components/grid/home-grid';
 import { siteConfig } from '@/config/site';
-import { getAllPosts, getAllProjects } from '@/lib/mdx';
 import type { BaseMetadata, MDXData } from '@/lib/mdx';
+import { getAllPosts, getAllProjects } from '@/lib/mdx';
 import { parseView } from '@/lib/utils';
 
 type Props = {

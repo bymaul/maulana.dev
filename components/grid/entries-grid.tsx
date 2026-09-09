@@ -1,6 +1,6 @@
+import EntryCard from '@/components/grid/entry-card';
 import GridItem from '@/components/grid/grid-item';
 import GridLayout from '@/components/grid/layout';
-import EntryCard from '@/components/grid/entry-card';
 import { getGridItems } from '@/config/grid';
 import type { MDXData, PostMetadata, ProjectMetadata } from '@/lib/mdx';
 import type { ViewId } from '@/lib/utils';
