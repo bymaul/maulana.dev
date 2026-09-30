@@ -45,5 +45,5 @@ export const siteConfig = {
   author: 'Maulana',
   email: 'maulanaatriadi@gmail.com',
   role: 'a software engineer from Yogyakarta, Indonesia.',
-  tagline: 'I love building reliable software and learning new things.',
+  tagline: 'I build software that holds up, and I keep learning how to build it better.',
 };

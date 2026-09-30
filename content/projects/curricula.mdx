@@ -1,6 +1,6 @@
 ---
 title: 'Curricula'
-description: 'An open-source, privacy-focused resume builder web app featuring classic academic Harvard typography and precision PDF/print scaling.'
+description: 'An offline-first resume builder with three print-accurate templates, local storage, and optional AI parsing and rewriting.'
 date: 2026-07-30
 featured: true
 links:
@@ -15,4 +15,4 @@ preview:
     - /projects/curricula-desktop.webp
 ---
 
-This offline-first resume builder provides a private and streamlined way to create, edit, and export professional resumes without relying on external servers or an active internet connection. Built with Next.js, Tailwind CSS, shadcn/ui, Zustand, and PWA technologies, it combines a clean Harvard-style template with ATS-friendly formatting, real-time editing, local auto-saving, and JSON import/export to keep resume data fully under the user's control. With responsive editing tools, accurate print and PDF scaling, and installable desktop and mobile support, the application delivers a seamless resume-building experience while keeping everything fast, private, and accessible offline.
+Curricula is a resume builder that runs in the browser, with nothing to sign up for and no server holding your CV. Data lives in IndexedDB with a `localStorage` fallback, and the app installs as a PWA, so editing and autosaving keep working with no connection. Three templates ship with it, Harvard, Modern, and Minimal, all tuned for A4 print output, with per-resume settings for accent colour, font, and line density, and export runs through your browser's own print engine. Local storage is the default; the AI features are the exception, and they send the CV to whichever provider is configured. They parse a pasted resume or a PDF, including scanned ones read with vision when there is no text layer, and rewrite a whole CV or a single section against a job description, showing a summary of the changes before anything is applied. Around that sit multiple resumes, undo and redo with in-session version history, custom sections, share links that carry the CV in the URL itself, and an interface in English or Bahasa Indonesia.

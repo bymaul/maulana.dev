@@ -1,6 +1,6 @@
 ---
 title: 'Quick Touch'
-description: 'A Visual Studio Code extension for creating files and nested directory structures instantly from the command palette without reaching for the mouse.'
+description: 'A VS Code file manager in the command palette: create, rename, move, and delete without leaving the keyboard.'
 date: 2026-07-23
 links:
   [
@@ -12,6 +12,4 @@ links:
   ]
 ---
 
-![Demo](/projects/vscode-quick-touch.gif)
-
-Quick Touch is a lightweight Visual Studio Code extension that streamlines file creation directly from the command palette, allowing developers to instantly generate files and entire nested directory structures from a single input without leaving the keyboard. By automatically creating missing parent folders and intelligently resolving file locations based on the current workspace context, Quick Touch eliminates repetitive navigation and setup tasks, helping developers stay focused on writing code. Built with TypeScript and the official VS Code Extension API, it delivers a fast, reliable, and cross-platform experience for creating everything from simple files to deeply nested project structures with minimal effort and maximum productivity.
+Quick Touch turns the VS Code command palette into a file manager. One input creates a file, a nested path, a directory, or a whole batch such as `api.ts, types.ts, utils/`, and missing parent folders are built along the way, with a shared base path so `components/, Button.tsx` lands inside the folder. Rename, move, and delete work the same way through the prefixes `rn `, `mv `, and `del `, and delete goes to the OS trash rather than removing anything outright, since create, rename, and move all refuse to overwrite. Navigation is part of it too: `/` jumps to the workspace root, `..` goes up a level, and `~` reaches your home directory, with fuzzy filtering as you type. It ships bound to `ctrl+alt+n`, has no runtime dependencies, and goes through `vscode.workspace.fs` rather than Node's `fs`, so it behaves the same over remote and virtual workspaces.
